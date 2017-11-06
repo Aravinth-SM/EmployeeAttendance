@@ -258,7 +258,7 @@ if(!isset($_SESSION["admin"]))
 <br/>
         <div class="row">
           <button class="waves-effect waves-light btn" id="submit" name="submit">SAVE</button> &nbsp;&nbsp;&nbsp;
-          <button type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>
+          <button onclick="location.reload();" class="waves-effect waves-light btn red-text white">RESET</button><br/>
         </div> 
       </form>                           
     </div>
