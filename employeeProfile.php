@@ -24,11 +24,16 @@ if(!isset($_SESSION["admin"]))
   <!-- Materialize Close -->
 
   <style type="text/css">
-      @font-face { font-family: Gumption lite; src: url('fonts/Gumption-lite.ttf'); } 
-        .helloFont1{
+      @font-face { 
+        font-family: Gumption lite; 
+        src: url('fonts/Gumption-lite.ttf'); 
+      } 
+      .helloFont1 {
         font-family:"Gumption lite";
       }
-} 
+      td,th {
+        padding: 10px 5px;
+      }
   </style> 
   <script type="text/javascript">
       $(document).ready(function(){
@@ -38,18 +43,16 @@ if(!isset($_SESSION["admin"]))
         $('.modal-trigger').leanModal();
         $(".button-collapse").sideNav();
 
-  $('.modal-trigger').leanModal({
-      dismissible: true, // Modal can be dismissed by clicking outside of the modal
-      opacity: .5, // Opacity of modal background
-      inDuration: 300, // Transition in duration
-      outDuration: 200, // Transition out duration
-      startingTop: '4%', // Starting top style attribute
-      endingTop: '10%', // Ending top style attribute
-      complete: function() { location.reload(); } // Callback for Modal close
-    }
-  );
-
+        $('.modal-trigger').leanModal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: .5, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '4%', // Starting top style attribute
+            endingTop: '10%', // Ending top style attribute
+            complete: function() { location.reload(); } // Callback for Modal close
         });
+      });
 
       function loadDatas(empId) {
         var month = document.getElementById("month").value;
@@ -90,6 +93,35 @@ if(!isset($_SESSION["admin"]))
             xmlhttp.send();
           }        
       }
+
+      function showBankDiv() {
+          var x = document.getElementsByClassName("bank");
+          var state = document.getElementById('bank').value;
+          var val = "";
+
+          if(state == "off") {
+            val = "block";
+            document.getElementById('bank').value = "on";
+          }
+          else {
+            val = "none";
+            document.getElementById('bank').value = "off";
+          }
+
+          x[0].style.display = val;
+          x[1].style.display = val;
+          x[2].style.display = val;
+      }
+
+      function toggleCheck(id) {
+        var state = document.getElementById(id).value;
+        if(state == "off") {
+          document.getElementById(id).value = "on";
+        }
+        else {
+          document.getElementById(id).value = "off";
+        }      
+      }      
 
   </script>   
 </head>
@@ -132,34 +164,62 @@ if(!isset($_SESSION["admin"]))
          <div class="collapsible-header active teal-text">
             <i class="material-icons">assignment</i><b>Salary Structure</b>
          </div>
+
+<?php
+
+$salary = $employee['salary'];
+$pf     = $employee['PF'];
+$esi    = $employee['ESI'];
+$isBusFare = $employee['busFare'];
+$isMessFare = $employee['messFare'];
+$bankAccountNumber = $employee['bankAccountNumber'];
+
+if($isBusFare)
+  $busFare = 20;
+else
+  $busFare = 0;
+
+if($isMessFare)
+  $messFare = 200;
+else
+  $messFare = 0;
+
+$total = $salary - $pf - $esi - $busFare - $messFare;
+
+?>
+
          <div class="collapsible-body">
-            <table class=" centered">
-              <thead>
+            <table class="highlight centered">
+              <thead style="border-top: 1px solid black;border-bottom: 1px solid black;font-size: 16px;">
                 <tr>
-                    <th>Component</th>
+                    <th>COMPONENTS</th>
                     <th>Rs.</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>BASIC</td>
-                  <td>4500.00</td>
+                  <td><?php echo $salary; ?>.00</td>
                 </tr>
                 <tr>
-                  <td>HRA</td>
-                  <td>2100.00</td>
+                  <td>PF</td>
+                  <td><?php echo $pf; ?>.00</td>
                 </tr>
                 <tr>
-                  <td>ALLOWANCE</td>
-                  <td>3200.00</td>
+                  <td>ESI</td>
+                  <td><?php echo $esi; ?>.00</td>
                 </tr>
                 <tr>
-                  <td>EMPLOYER PF</td>
-                  <td>600.00</td>
+                  <td>BUS FARE</td>
+                  <td><?php echo $busFare; ?>.00</td>
                 </tr>
                 <tr>
-                  <td>TOTAL</td>
-                  <td>10400.00</td>
+                  <td>MESS FARE</td>
+                  <td><?php echo $messFare; ?>.00</td>
+                </tr>                
+                <tr style="border-top: 1px solid black;font-size: 15px;">
+                  <td><b>TOTAL</b></td>
+                  <td><b><?php echo $total; ?>.00</b></td>
                 </tr>                                
               </tbody>
             </table>
@@ -240,21 +300,58 @@ if(!isset($_SESSION["admin"]))
        </div>
       </div>
       <div class="row">
-       <div class="input-field col s12">
-         <input id="phone" name="phone" type="text" class="validate" value="<?php echo $employee['phone']; ?>">
-         <label for="phone">Phone number</label>
-       </div>
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>Photo</span>
+            <input type="file">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+        </div>
       </div>
+      <div class="row">
+        <div class="input-field col s6">      
+          <p>
+            <input name="gender" type="radio" id="male" value="male" 
+               <?php 
+                  if($employee['gender']=="male")
+                     echo "checked";
+               ?>
+            />
+            <label for="male">Male</label>
+          </p>
+        </div>
+        <div class="input-field col s6">         
+          <p>
+            <input name="gender" type="radio" id="female" value="female" 
+               <?php 
+                  if($employee['gender']=="female")
+                     echo "checked";
+               ?>
+            />
+            <label for="female">Female</label>
+          </p>
+        </div>
+      </div> 
+      <div class="row">
+       <div class="input-field col s12">
+         <textarea id="address" name="address" class="materialize-textarea">
+            <?php echo $employee['address']; ?>
+         </textarea>
+         <label for="address">Address</label>
+       </div>
+      </div>  
       <div class="row">
        <div class="input-field col s12">
          <input id="dob" name="dob" type="text" class="datepicker" value="<?php echo $employee['DOB']; ?>">
          <label for="dob">DOB</label>
        </div>
-      </div>
+      </div>               
       <div class="row">
        <div class="input-field col s12">
-         <input id="doj" name="doj" type="text" class="datepicker" value="<?php echo $employee['DOJ']; ?>">
-         <label for="doj">DOJ</label>
+         <input id="phone" name="phone" type="text" class="validate" value="<?php echo $employee['phone']; ?>">
+         <label for="phone">Phone number</label>
        </div>
       </div>      
       <div class="row">
@@ -280,21 +377,211 @@ if(!isset($_SESSION["admin"]))
            <label for="daily">Daily wages</label>
          </p>
        </div>
-      </div>        
+      </div> 
+      <div class="row">
+       <div class="input-field col s12">
+         <input id="doj" name="doj" type="text" class="datepicker" value="<?php echo $employee['DOJ']; ?>">
+         <label for="doj">DOJ</label>
+       </div>
+      </div>
+      <div class="input-field col s12">
+        <select name="plant" id="plant">
+          <option value="" disabled>Choose your option</option>
+          <option value="Jelly"
+<?php 
+    if($employee['plant']=="Jelly")
+      echo "selected";
+ ?>
+          >Jelly</option>
+          <option value="Waffer"
+<?php 
+    if($employee['plant']=="Waffer")
+      echo "selected";
+ ?>
+          >Waffer</option>
+          <option value="Cup"
+<?php 
+    if($employee['plant']=="Cup")
+      echo "selected";
+ ?>
+          >Cup</option>
+          <option value="Toy & Jar"
+<?php 
+    if($employee['plant']=="Toy & Jar")
+      echo "selected";
+ ?>
+          >Toy & Jar</option>
+          <option value="Lollypop"
+<?php 
+    if($employee['plant']=="Lollypop")
+      echo "selected";
+ ?>
+          >Lollypop</option>
+          <option value="Coffee"
+<?php 
+    if($employee['plant']=="Coffee")
+      echo "selected";
+ ?>
+          >Coffee</option> 
+          <option value="Utility"
+<?php 
+    if($employee['plant']=="Utility")
+      echo "selected";
+ ?>
+          >Utility</option>
+          <option value="ETP & Boilers"
+<?php 
+    if($employee['plant']=="ETP & Boilers")
+      echo "selected";
+ ?>
+          >ETP & Boilers</option>
+          <option value="Electrical"
+<?php 
+    if($employee['plant']=="Electrical")
+      echo "selected";
+ ?>
+          >Electrical</option>
+          <option value="Driver"
+<?php 
+    if($employee['plant']=="Driver")
+      echo "selected";
+ ?>
+          >Driver</option>                       
+        </select>
+        <label>Plant / Department</label>
+      </div>                    
       <div class="row">
        <div class="input-field col s12">
          <input id="salary" name="salary" type="text" class="validate"  value="<?php echo $employee['salary']; ?>">
          <label for="salary">Salary</label>
        </div>
       </div>
-      <div class="row">
-       <div class="input-field col s12">
-         <textarea id="address" name="address" class="materialize-textarea">
-            <?php echo $employee['address']; ?>
-         </textarea>
-         <label for="address">Address</label>
-       </div>
-      </div><br/>
+        <div class="row">
+          <div class="input-field col s6">      
+            <p>
+              <input name="busFare" type="checkbox" onchange="toggleCheck(this.id);" class="filled-in" id="bus" 
+               <?php 
+                  if($isBusFare)
+                     echo "checked";
+               ?>
+               value="<?php 
+                    if($isBusFare)
+                      echo "on";
+                    else
+                      echo "off";
+                 ?>"               
+              />
+              <label for="bus">Bus fare</label>
+            </p>
+          </div>
+          <div class="input-field col s6">         
+            <p>
+              <input name="messFare" type="checkbox" onchange="toggleCheck(this.id);" class="filled-in" id="mess" 
+               <?php 
+                  if($isMessFare)
+                     echo "checked";
+               ?>
+               value="<?php 
+                    if($isMessFare)
+                      echo "on";
+                    else
+                      echo "off";
+                 ?>"               
+              />
+              <label for="mess">Mess fare</label>
+            </p>
+          </div>
+        </div>        
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="pf" name="pf" type="text" class="validate" required="required" value="<?php echo $pf; ?>">
+            <label for="pf">PF</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="esi" name="esi" type="text" class="validate" required="required" value="<?php echo $esi; ?>">
+            <label for="esi">ESI</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input name="isBank" type="checkbox" class="filled-in" id="bank" onchange="showBankDiv();" 
+               <?php 
+                  if($bankAccountNumber)
+                     echo "checked";
+               ?>
+               value="<?php 
+                    if($bankAccountNumber)
+                      echo "on";
+                    else
+                      echo "off";
+                 ?>"
+            />
+            <label for="bank">Bank Account</label>
+          </div> 
+        </div>
+        <div class="row bank" style="
+           <?php 
+              if($bankAccountNumber)
+                echo "display: block;";
+              else
+                echo "display: none;";
+           ?>
+           ">
+          <div class="input-field col s12">
+            <input id="accNo" name="accNo" type="text" class="validate" required="required" 
+               <?php 
+                  if($bankAccountNumber)
+                    echo "value='".$bankAccountNumber."'";
+                  else
+                    echo "value='0'";
+               ?>
+            />
+            <label for="accNo">Account Number</label>
+          </div>
+        </div>
+        <div class="row bank" style="
+           <?php 
+              if($bankAccountNumber)
+                echo "display: block;";
+              else
+                echo "display: none;";
+           ?>
+           ">        
+          <div class="input-field col s12">
+            <input id="branchName" name="branchName" type="text" class="validate" required="required" 
+               <?php 
+                  if($bankAccountNumber)
+                    echo "value='".$employee['branchName']."'";
+                  else
+                    echo "value=' '";
+               ?>
+            />
+            <label for="branchName">Branch Name</label>
+          </div>
+        </div> 
+        <div class="row bank" style="
+           <?php 
+              if($bankAccountNumber)
+                echo "display: block;";
+              else
+                echo "display: none;";
+           ?>
+           ">        
+          <div class="input-field col s12">
+            <input id="branchCode" name="branchCode" type="text" class="validate" required="required" 
+               <?php 
+                  if($bankAccountNumber)
+                    echo "value='".$employee['branchCode']."'";
+                  else
+                    echo "value='0'";
+               ?>
+            />
+            <label for="branchCode">Branch Code</label>
+          </div>
+        </div>      
+<br/>
       <div class="row">
        <button class="waves-effect waves-light btn" id="submit" name="submit">EDIT</button> &nbsp;&nbsp;&nbsp;
        <button type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>
