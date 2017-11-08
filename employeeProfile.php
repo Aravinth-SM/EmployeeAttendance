@@ -94,6 +94,22 @@ if(!isset($_SESSION["admin"]))
           }        
       }
 
+      function deleteEmp(empId) {
+        if(empId == "") { 
+          return;
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var state = this.responseText;
+                    window.location.href = "employeeRecords.php";
+                }
+            }
+            xmlhttp.open("GET", "changeEmployeeStatus.php?empId="+empId, true);
+            xmlhttp.send();
+          }        
+      }      
+
       function showBankDiv() {
           var x = document.getElementsByClassName("bank");
           var state = document.getElementById('bank').value;
@@ -228,6 +244,8 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
       </ul>
       <br/>
       <a class="waves-effect waves-light btn modal-trigger" href="#modalAttendance">VIEW ATTENDANCE</a>
+      &nbsp;&nbsp;&nbsp;
+      <button class="waves-effect waves-light btn red-text white" onclick="deleteEmp(<?php echo $employee['emp_id']; ?>);">DELETE EMPLOYEE</button>
       <!-- Modal Structure Open -->
       <div id="modalAttendance" class="modal" style="width: 1200px;max-height: 600px;">
          <div class="modal-content">
