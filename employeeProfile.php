@@ -304,7 +304,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
       <!-- Modal Structure Close -->     
     </div>
     <div class="col s12 m6 l6">
-      <fom method="post">
+      <form method="post">
       <div class="row">
        <div class="input-field col s12">
          <input id="name" name="name" type="text" class="validate" value="<?php echo $employee['name']; ?>">
@@ -604,11 +604,66 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
        <button class="waves-effect waves-light btn" id="submit" name="submit">EDIT</button> &nbsp;&nbsp;&nbsp;
        <button type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>
       </div>  
-      </fom>    
+      </form>    
     </div>       
   </div>             
 </body>
 </html>
 <?php
- mysqli_close($conn);
+
+if(isset($_POST["submit"]))
+{
+
+  $empId = $_POST["empId"];
+  $name = $_POST["name"];
+  $workType = $_POST["workType"];
+  $salary = $_POST["salary"];   
+  $phone = $_POST["phone"];
+  $dob = $_POST["dob"];
+  $doj = $_POST["doj"];
+  $address = $_POST["address"];  
+
+  $gender = $_POST["gender"];
+  $plant = $_POST["plant"];
+  $busFare = $_POST["busFare"];
+  $messFare = $_POST["messFare"]; 
+  $pf = $_POST["pf"];
+  $esi = $_POST["esi"];
+  $isBank = $_POST["isBank"]; 
+  $accNo = 0;
+  $branchName = "";
+  $branchCode = 0;
+
+  if($busFare == "on") {
+    $busFare = 1;
+  } 
+  else {
+    $busFare = 0;
+  } 
+
+  if($messFare == "on") {
+    $messFare = 1;
+  } 
+  else {
+    $messFare = 0;
+  }   
+
+  if($isBank == "on") {
+    $accNo      = $_POST["accNo"];
+    $branchName = $_POST["branchName"];
+    $branchCode = $_POST["branchCode"];    
+  }
+
+  //echo $name."<br/>".$empId."<br/>".$phone."<br/>".$address."<br/>".$dob."<br/>".$doj."<br/>".$workType."<br/>".$salary."<br/>";  
+
+  //echo $gender."<br/>".$plant."<br/>".$busFare."<br/>".$messFare."<br/>".$pf."<br/>".$esi."<br/>".$accNo."<br/>".$branchName."<br/>".$branchCode."<br/>";
+
+  $execute = mysqli_query($conn,"update employee set name='".$name."',type='".$workType."',salary='".$salary."',phone='".$phone."',DOB='".$dob."',DOJ='".$doj."',address='".$address."',PF='".$pf."',ESI='".$esi."',gender='".$gender."',busFare='".$busFare."',messFare='".$messFare."',plant='".$plant."',bankAccountNumber='".$accNo."',branchCode='".$branchCode."',branchName='".$branchName."' where emp_id='".$empId."' ");
+
+
+   echo "<script>window.location.href='employeeRecords.php';</script>";
+
+  mysqli_close($conn);
+}
+
 ?>
