@@ -405,9 +405,9 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
       echo "selected";
  ?>
           >Cup</option>
-          <option value="Toy & Jar"
+          <option value="Toy_Jar"
 <?php 
-    if($employee['plant']=="Toy & Jar")
+    if($employee['plant']=="Toy_Jar")
       echo "selected";
  ?>
           >Toy & Jar</option>
@@ -429,9 +429,9 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
       echo "selected";
  ?>
           >Utility</option>
-          <option value="ETP & Boilers"
+          <option value="ETP_Boilers"
 <?php 
-    if($employee['plant']=="ETP & Boilers")
+    if($employee['plant']=="ETP_Boilers")
       echo "selected";
  ?>
           >ETP & Boilers</option>

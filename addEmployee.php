@@ -189,11 +189,11 @@ if(!isset($_SESSION["admin"]))
             <option value="Jelly">Jelly</option>
             <option value="Waffer">Waffer</option>
             <option value="Cup">Cup</option>
-            <option value="Toy & Jar">Toy & Jar</option>
+            <option value="Toy_Jar">Toy & Jar</option>
             <option value="Lollypop">Lollypop</option>
             <option value="Coffee">Coffee</option> 
             <option value="Utility">Utility</option>
-            <option value="ETP & Boilers">ETP & Boilers</option>
+            <option value="ETP_Boilers">ETP & Boilers</option>
             <option value="Electrical">Electrical</option>
             <option value="Driver">Driver</option>                       
           </select>

@@ -35,6 +35,7 @@ if(!isset($_SESSION["admin"]))
   <script type="text/javascript">
 
     $(document).ready(function(){   
+      $('select').material_select();
       $(".button-collapse").sideNav(); 
     });
 
@@ -56,9 +57,47 @@ if(!isset($_SESSION["admin"]))
         }
       }
     }
+
+    function loadDatas(val) {
+      if (val == "") { 
+        return;
+      } else {
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  var val = this.responseText;
+                  var splitedVal = val.split(":");
+                    document.getElementById("totalEmp").innerHTML = "<b>"+splitedVal[0]+"</b>";
+                    document.getElementById("monthlyEmp").innerHTML = "<b>"+splitedVal[1]+"</b>";
+                    document.getElementById("dailyEmp").innerHTML = "<b>"+splitedVal[2]+"</b>";
+                  //document.getElementById('employeeRows').innerHTML=val;                       
+              }
+          }
+          xmlhttp.open("GET", "loadDatasForPlant.php?plant="+val, true);
+          xmlhttp.send();
+        }        
+    }    
+
+    function fetchEmployees(val) {
+      if (val == "") { 
+        return;
+      } else {
+          loadDatas(val);
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  var val = this.responseText;
+                  document.getElementById('employeeRows').innerHTML=val;                       
+              }
+          }
+          xmlhttp.open("GET", "fetchEmployeesForPlant.php?plant="+val, true);
+          xmlhttp.send();
+        }        
+    } 
+
   </script>
 </head>
-<body>
+<body onload="fetchEmployees('all');">
   <nav>
     <div class="nav-wrapper blue-grey darken-3">
       &nbsp;&nbsp;&nbsp;
@@ -101,66 +140,57 @@ if(!isset($_SESSION["admin"]))
     <div class="col s12 m3 l3">
       <br/>
       <div class="input-field col s12">
+        <select name="plant" id="plant" onchange="fetchEmployees(this.value);">
+          <option value="all" selected>All</option>
+          <option value="Jelly">Jelly</option>
+          <option value="Waffer">Waffer</option>
+          <option value="Cup">Cup</option>
+          <option value="Toy_Jar">Toy & Jar</option>
+          <option value="Lollypop">Lollypop</option>
+          <option value="Coffee">Coffee</option> 
+          <option value="Utility">Utility</option>
+          <option value="ETP_Boilers">ETP & Boilers</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Driver">Driver</option>                       
+        </select>
+        <label>Plant / Department</label>
+      </div>       
+      <div class="input-field col s12">
         <i class="material-icons prefix green-text text-darken-2">search</i>
         <input type="text" name="myInput" placeholder="Search Employee.." id="myInput"
           onkeyup="myFunction(<?php echo $noOfEmployees; ?>)" class="blue-grey-text text-darken-3">
       </div>
     </div>   
     <div class="col s12 m3 l3">
-      <div class="card green darken-1" style="height: 80px;">
+      <div class="card green darken-1" style="">
           <div class="card-content white-text" style="line-height: 1.8">
             <p><b>NO. &nbsp; OF &nbsp; EMPLOYEES</b></p>
             <div class="divider"></div>
-            <p><b><?php echo $noOfEmployees; ?></b></p>
+            <p id="totalEmp"><b><?php echo $noOfEmployees; ?></b></p>
           </div>
       </div>     
     </div>
     <div class="col s12 m3 l3">
-      <div class="card green darken-1" style="height: 80px;">
+      <div class="card green darken-1" style="">
           <div class="card-content white-text" style="line-height: 1.8">
             <p><b>MONTHLY &nbsp; PAID &nbsp; EMPLOYEES</b></p>
             <div class="divider"></div>
-            <p><b><?php echo $noOfMonthlyPaid; ?></b></p>
+            <p id="monthlyEmp"><b><?php echo $noOfMonthlyPaid; ?></b></p>
           </div>
       </div>     
     </div>    
     <div class="col s12 m3 l3">
-      <div class="card green darken-1" style="height: 80px;">
+      <div class="card green darken-1" style="">
           <div class="card-content white-text" style="line-height: 1.8">
             <p><b>DAILY &nbsp; PAID &nbsp; EMPLOYEES</b></p>
             <div class="divider"></div>
-            <p><b><?php echo $noOfDailyPaid; ?></b></p>
+            <p id="dailyEmp"><b><?php echo $noOfDailyPaid; ?></b></p>
           </div>
       </div>      
     </div>         
   </div> 
 
-  <div class="row">
-<?php
-   $i = -1;
-  while($employee = mysqli_fetch_assoc($exe))
-    {
-      $i++;
-?>     
-    <div class="col s12 m4 l2" id="<?php echo "employee".$i ?>" data="<?php echo $employee['name']; ?>">
-      <a class="modal-trigger" href="employeeProfile.php?id=<?php echo $employee['id']; ?>" >
-      <div class="card blue lighten-1" style="border-radius: 6%;height: 80px;">
-        <div class="row card-content white-text">
-          <div class="col s9">
-            <p><?php echo $employee["name"]; ?></p>
-            <p><?php echo $employee["emp_id"]; ?></p>
-          </div>
-          <div class="col s3">
-            <img src="images/img_avatar.png" alt="Avatar" style="width:40px;">
-          </div>          
-        </div>
-      </div>
-      </a>
-    </div>
-<?php
-    }
-?>    
-  </div>           
+  <div class="row"  id="employeeRows"></div>           
 </body>
 </html>
 <?php

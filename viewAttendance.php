@@ -34,7 +34,16 @@ if(!isset($_SESSION["admin"]))
   <script type="text/javascript">
 
     $(document).ready(function(){   
+      $('select').material_select();
       $(".button-collapse").sideNav(); 
+      $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true // Close upon selecting a date,
+      });      
     });
     
     function myFunction(length) {
@@ -152,11 +161,59 @@ if(!isset($_SESSION["admin"]))
             xmlhttp.open("GET", "markInOut.php?empId="+data_empId+"&data="+data_status, true);
             xmlhttp.send();
           }        
-      }      
+      }
+
+      function loadDatas(val,date) {
+        if ( (val == "") || (date == "") ) { 
+          return;
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var val = this.responseText;
+                    var splitedVal = val.split(":");
+
+                    totalEmpVal = splitedVal[0];
+                    document.getElementById('empTotal').setAttribute("data-val",totalEmpVal);
+                    document.getElementById('empTotal').innerHTML = "Employees - "+totalEmpVal;
+
+                    empPresentVal = splitedVal[1];
+                    document.getElementById('empPresent').setAttribute("data-val",empPresentVal);
+                    document.getElementById('empPresent').innerHTML = "Present - "+empPresentVal;
+
+                    empAbsentVal = splitedVal[2];
+                    document.getElementById('empAbsent').setAttribute("data-val",empAbsentVal);
+                    document.getElementById('empAbsent').innerHTML = "Absent - "+empAbsentVal;
+                    //document.getElementById('employeeRows').innerHTML=val;                       
+                }
+            }
+            xmlhttp.open("GET", "loadDatasForPlant_Date.php?plant="+val+"&date="+date, true);
+            xmlhttp.send();
+          }        
+      }       
+
+      function fetchEmployees() {
+        var val = document.getElementById('plant').value;
+        var date = document.getElementById('date').value;
+        if ( (val == "") || (date == "") ) { 
+          return;
+        } else {
+            loadDatas(val,date);
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var val = this.responseText;
+                    document.getElementById('employeeRows').innerHTML=val;                       
+                }
+            }
+            xmlhttp.open("GET", "fetchEmployeesForPlant_Date.php?plant="+val+"&date="+date, true);
+            xmlhttp.send();
+          }        
+      }             
 
   </script>
 </head>
-<body>
+<body onload="fetchEmployees();">
   <nav>
     <div class="nav-wrapper blue-grey darken-3">
       &nbsp;&nbsp;&nbsp;
@@ -212,6 +269,22 @@ if(!isset($_SESSION["admin"]))
     <div class="col s12 m3 l3">
       <br/>
       <div class="input-field col s12">
+        <select name="plant" id="plant" onchange="fetchEmployees();">
+          <option value="all" selected>All</option>
+          <option value="Jelly">Jelly</option>
+          <option value="Waffer">Waffer</option>
+          <option value="Cup">Cup</option>
+          <option value="Toy_Jar">Toy & Jar</option>
+          <option value="Lollypop">Lollypop</option>
+          <option value="Coffee">Coffee</option> 
+          <option value="Utility">Utility</option>
+          <option value="ETP_Boilers">ETP & Boilers</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Driver">Driver</option>                       
+        </select>
+        <label>Plant / Department</label>
+      </div>      
+      <div class="input-field col s12">
         <i class="material-icons prefix green-text text-darken-2">search</i>
         <input type="text" name="myInput" placeholder="Search Employee.." id="myInput"
           onkeyup="myFunction(<?php echo $noOfEmployees; ?>)" class="blue-grey-text text-darken-3">
@@ -237,7 +310,12 @@ if(!isset($_SESSION["admin"]))
     </div>  
     <div class="col s12 m3 l3">
       <br/>
-      <label class="grey-text text-darken-2" style="font-size: 15px;"><b>Date : </b></label>&nbsp;&nbsp;&nbsp;<label class="green-text" style="font-size: 15px;"><b><?php echo $current_display_date; ?></b></label>
+<!--       <label class="grey-text text-darken-2" style="font-size: 15px;"><b>Date : </b></label>&nbsp;&nbsp;&nbsp;<label class="green-text" style="font-size: 15px;"><b><?php echo $current_display_date; ?></b></label> -->
+      <div class="input-field col s10">
+        <input id="date" name="date" type="text" class="datepicker" onchange="fetchEmployees();" value="<?php echo $current_display_date; ?>" />
+        <label for="date">DATE</label>
+      </div>
+
       <br/>
         <?php 
           if($isHoliday=="false") {
@@ -266,98 +344,7 @@ if(!isset($_SESSION["admin"]))
 <?php    
   }
 ?>
-
-<?php
-   $i = -1;
-  while($employee = mysqli_fetch_assoc($exe))
-    {
-      $i++;
-
-      $empId = $employee["emp_id"];
-      $empStatus = "";
-      $empColor = "";
-      $empIN = "";
-      $empOUT = "";
-      $empOT = "";
-
-   $empQuery = "select * from attendance where emp_id='".$empId."' and date='".$current_date."'";
-   $empExe = mysqli_query($conn,$empQuery);
-   
-   if(mysqli_num_rows($empExe) > 0)
-   {
-      while($empRow = mysqli_fetch_assoc($empExe))
-      {
-            $empIN = $empRow['in_time'];
-            $t1_explode = explode(":", $empIN);
-            $empIN = $t1_explode[0].':'.$t1_explode[1];
-
-            $empOUT = $empRow['out_time'];
-            if($empOUT!="") {
-              $t1_explode = explode(":", $empOUT);
-              $empOUT = $t1_explode[0].':'.$t1_explode[1];              
-            }
- 
-
-            $empOT = $empRow['duration'];
-            if($empOT!="") {
-              $t1_explode = explode(":", $empOT);
-              $empOT = $t1_explode[0].':'.$t1_explode[1]; 
-            }
-            
-
-            if($empOUT=="") {
-              $empStatus = "in";
-              $empColor = "green";
-            }
-            else {
-              $empStatus = "out";
-              $empColor = "amber";              
-            }
-      }
-   }
-   else {
-      $empStatus = "ab";
-      $empColor = "blue";
-   }      
-?>     
-    <div class="col s12 m4 l2" id="<?php echo "employee".$i ?>" data="<?php echo $employee['name']; ?>">
-      <div class="card <?php echo $empColor; ?> lighten-1"  id="<?php echo "emp".$i ?>" style="border-radius: 6%;height: 115px;cursor: pointer;" onclick="markAttendance(this);" data-status="<?php echo $empStatus; ?>" data-empId="<?php echo $employee['emp_id']; ?>">
-        <div class="card-content white-text">
-          <div class="row" align="center" style="line-height: 0">
-            <p><?php echo $employee["name"]; ?></p>
-          </div>
-          <div class="divider"></div>
-          <div class="row">
-            <div class="col s2" style="line-height: 2;">
-              <div class="divider" style="height: 9px;background-color :transparent;"></div>
-              <img src="images/img_avatar.png" alt="Avatar" style="width:40px;"><br/>
-              <p><?php echo $employee["emp_id"]; ?></p>
-            </div> 
-            <div class="col s1">
-              &nbsp;
-            </div>
-            <div class="col s1" style="font-size: 18px;line-height : 1;">
-              <p>|</p>
-              <p>|</p>
-              <p>|</p>
-              <p>|</p>
-            </div>                      
-            <div class="col s6">
-              <div class="divider" style="height: 5px;background-color :transparent;"></div>
-              <div id="<?php echo 'attendanceStatus'.$employee['emp_id']; ?>">
-                <P>IN&nbsp;&nbsp;-&nbsp;<?php echo $empIN; ?></P>
-                <P>O&nbsp;&nbsp;&nbsp;-&nbsp;<?php echo $empOUT; ?></P>
-                <P>OT&nbsp;-&nbsp;<?php echo $empOT; ?></P>
-              </div>
-            </div>
-          </div>         
-        </div>
-      </div>
-    </div>
-<?php
-    }
-?>    
-  </div>           
+</div>           
 </body>
 </html>
 <?php
