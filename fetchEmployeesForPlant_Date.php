@@ -69,9 +69,10 @@
       $empStatus = "ab";
       $empColor = "blue";
    }      
-?>     
+?>
     <div class="col s12 m4 l2" id="<?php echo "employee".$i ?>" data="<?php echo $employee['name']; ?>">
-      <div class="card <?php echo $empColor; ?> lighten-1"  id="<?php echo "emp".$i ?>" style="border-radius: 6%;height: 115px;cursor: pointer;" onclick="markAttendance(this);" data-status="<?php echo $empStatus; ?>" data-empId="<?php echo $employee['emp_id']; ?>">
+      <a class="" onclick="modalOpen('<?php echo $employee["name"]; ?>','<?php echo $employee["emp_id"]; ?>','<?php echo $empIN; ?>','<?php echo $empOUT; ?>','<?php echo $empOT; ?>');"> 
+      <div class="card <?php echo $empColor; ?> lighten-1"  id="<?php echo "emp".$i ?>" style="border-radius: 6%;height: 115px;cursor: pointer;"  data-status="<?php echo $empStatus; ?>" data-empId="<?php echo $employee['emp_id']; ?>">
         <div class="card-content white-text">
           <div class="row" align="center" style="line-height: 0">
             <p style="font-size: 13px;"><?php echo $employee["name"]; ?></p>
@@ -103,7 +104,8 @@
           </div>         
         </div>
       </div>
-    </div>
+    </a>
+    </div>   
 <?php
     }
 mysqli_close($conn);    

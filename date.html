@@ -3,33 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Datepicker - Default functionality</title>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <!-- Materialize Open --> 
     <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
     <script type="text/javascript" src="materialize/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
   <!-- Materialize Close -->    
   <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
+    $(document).ready(function(){ 
+     
+      $('.timepicker').pickatime({
+        default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+        fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
+        twelvehour: false, // Use AM/PM or 24-hour format
+        donetext: 'OK', // text for done-button
+        cleartext: 'Clear', // text for clear-button
+        canceltext: 'Cancel', // Text for cancel-button
+        autoclose: false, // automatic close timepicker
+        ampmclickable: true, // make AM PM clickable
+        aftershow: function(){} //Function for after opening timepicker
+      }); 
+
+      $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true // Close upon selecting a date,
+      });                  
+    });  
   </script>
 </head>
 <body>
  
-<p>Date: <input type="text" id="datepicker"></p>
- 
-  <!--map-start-->
-  <div class="row">
-    <div class="col s12 m12 l10">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d491.23079020884677!2d78.149581661499!3d9.9467416112044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c5ce1c48c40b%3A0x29c52b204266cfa5!2sSiva+Foods!5e0!3m2!1sen!2sin!4v1450354614624" frameborder="0" style="border:0;width: 1300px;height: 400px;" allowfullscreen></iframe>
-    </div>
-  </div>
-  <!--map-end-->
+  <input id="time" name="time" type="text" class="timepicker" />
+ <br/>
+  <input id="date" name="date" type="text" class="datepicker" />
 
 </body>
 </html>

@@ -29,6 +29,42 @@ if(!isset($_SESSION["admin"]))
       .helloFont1{
       font-family:"Gumption lite";
     }  
+    .w3-modal{
+      z-index:3;display:none;padding-top:100px;position:fixed;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,0.4)
+    }
+    .w3-modal-content{
+      margin:auto;background-color:#fff;position:relative;padding:0;outline:0;width:600px
+    }
+    @media (max-width:600px){
+      .w3-modal-content{
+        margin:0 10px;width:auto!important
+      }
+      .w3-modal{
+        padding-top:30px
+      }
+    }
+    @media (max-width:768px){
+      .w3-modal-content{
+        width:500px
+      }
+      .w3-modal{
+        padding-top:50px
+      }
+    }
+    @media (min-width:993px){
+      .w3-modal-content{
+        width:600px
+      }
+    }  
+    .w3-display-topright{
+      position:absolute;right:0;top:0
+    }
+    .w3-button{
+      border:none;display:inline-block;outline:0;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap
+    }
+    .w3-button:hover{
+      color:#000!important;background-color:#ccc!important
+    }
   </style>
 
   <script type="text/javascript">
@@ -37,13 +73,26 @@ if(!isset($_SESSION["admin"]))
       $('select').material_select();
       $(".button-collapse").sideNav(); 
       $('.datepicker').pickadate({
+        min: [2017,9,20],
+        max: [2018,11,29],        
         selectMonths: true, // Creates a dropdown to control month
-        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        selectYears: 10, // Creates a dropdown of 15 years to control year,
         today: 'Today',
         clear: 'Clear',
         close: 'Ok',
         closeOnSelect: true // Close upon selecting a date,
-      });      
+      });
+      $('.timepicker').pickatime({
+        default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+        fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
+        twelvehour: true, // Use AM/PM or 24-hour format
+        donetext: 'OK', // text for done-button
+        cleartext: 'Clear', // text for clear-button
+        canceltext: 'Cancel', // Text for cancel-button
+        autoclose: false, // automatic close timepicker
+        ampmclickable: true, // make AM PM clickable
+        aftershow: function(){} //Function for after opening timepicker
+      });            
     });
     
     function myFunction(length) {
@@ -63,6 +112,27 @@ if(!isset($_SESSION["admin"]))
         }
       }
     }
+
+    function modalOpen(name,id,inTime,outTime,otTime) {
+      document.getElementById("emp_name_time").innerHTML = "<b>"+name+"</b>";
+      document.getElementById("emp_id_time").value = id;
+      document.getElementById("in_time").value = inTime;
+      if( outTime != "" ) {
+        document.getElementById("out_time").value = outTime;
+      }
+      if( otTime != "" ) {
+        document.getElementById("ot_time").value = otTime;
+      }
+      document.getElementById('id01').style.display ='block';
+    }
+
+    function saveModalOpen() {
+      var emp_id_time = document.getElementById("emp_id_time").value;
+      var in_time = document.getElementById("in_time").value;
+      var out_time = document.getElementById("out_time").value;
+      var ot_time = document.getElementById("ot_time").value;
+      document.getElementById('id01').style.display ='none';
+    }    
 
       function markHoliday(param,length) {
         var date = param.getAttribute("data-date");
@@ -234,7 +304,8 @@ if(!isset($_SESSION["admin"]))
         <li><a href="logout.php">Log out</a></li>        
       </ul>      
     </div>
-  </nav>   
+  </nav>
+ <!--  <input id="time" name="time" type="text" class="timepicker" /> -->
   <div class="row" align="center">
 <?php
 
@@ -344,7 +415,66 @@ if(!isset($_SESSION["admin"]))
 <?php    
   }
 ?>
-</div>           
+</div>     
+
+<!-- Modal Structure Open -->
+<div id="id01" class="w3-modal">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <div class="row">
+        <div class="col s12 m2 l2">
+          <br/>
+        </div>        
+        <div class="col s12 l8 m8 blue-grey darken-3" align="center">
+          <p id="emp_name_time" class="white-text"></p>
+        </div>
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+      </div>
+      <div class="row">
+        <div class="col s12 m2 l2">
+          <br/>
+        </div>
+        <div class="col s12 m8 l8">
+          <input type="hidden" name="emp_id_time" id="emp_id_time"/>
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <p>IN</p>
+            </div>
+            <div class="col s12 m6 l6">
+              <input type="text" name="in_time" id="in_time" class="timepicker"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <p>OUT</p>
+            </div>
+            <div class="col s12 m6 l6">
+              <input type="text" name="out_time" id="out_time" class="timepicker"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <p>OT</p>
+            </div>
+            <div class="col s12 m6 l6">
+              <input type="text" name="ot_time" id="ot_time" class="validate"/>
+            </div>
+          </div> 
+          <div class="row" align="center">
+           <button class="waves-effect waves-light btn" onclick="saveModalOpen();">SUBMIT</button>
+           &nbsp;&nbsp;&nbsp;
+           <button class="waves-effect waves-light btn red-text white" onclick="document.getElementById('id01').style.display='none';">CANCEL</button>
+          </div>                              
+        </div>
+        <div class="col s12 m2 l2">
+          <br/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+<!-- Modal Structure Close --> 
+
 </body>
 </html>
 <?php
