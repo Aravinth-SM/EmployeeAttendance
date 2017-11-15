@@ -1,7 +1,10 @@
 <?php
 
   include("DB/db.php");
-  $cur_date = $_REQUEST["date"];
+  $res_date = $_REQUEST["date"];
+  $d=strtotime($res_date);
+  $cur_date = date("Y-m-d", $d);
+  
   $data = $_REQUEST["data"];
 
   if($data=="holiday") {

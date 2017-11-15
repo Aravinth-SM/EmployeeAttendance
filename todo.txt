@@ -1,5 +1,8 @@
+show holiday when date selected
+mask
+
 Add employee -> message on submit
-Edit employee -> message on submit -> cancel/reset/reload
+Edit employee -> message on submit
 validation
 code alignment
 

@@ -113,9 +113,10 @@ if(!isset($_SESSION["admin"]))
       }
     }
 
-    function modalOpen(name,id,inTime,outTime,otTime) {
+    function modalOpen(name,id,inTime,outTime,otTime,divId) {
       document.getElementById("emp_name_time").innerHTML = "<b>"+name+"</b>";
       document.getElementById("emp_id_time").value = id;
+      document.getElementById("div_id_time").value = divId;
       document.getElementById("in_time").value = inTime;
       if( outTime != "" ) {
         document.getElementById("out_time").value = outTime;
@@ -126,16 +127,17 @@ if(!isset($_SESSION["admin"]))
       document.getElementById('id01').style.display ='block';
     }
 
-    function saveModalOpen() {
-      var emp_id_time = document.getElementById("emp_id_time").value;
-      var in_time = document.getElementById("in_time").value;
-      var out_time = document.getElementById("out_time").value;
-      var ot_time = document.getElementById("ot_time").value;
+    function resetModalOpen() {
+      document.getElementById("emp_id_time").value = "";
+      document.getElementById("div_id_time").value = "";
+      document.getElementById("in_time").value = "";
+      document.getElementById("out_time").value = "";
+      document.getElementById("ot_time").value = "";
       document.getElementById('id01').style.display ='none';
     }    
 
       function markHoliday(param,length) {
-        var date = param.getAttribute("data-date");
+        var date = document.getElementById("date").value;
         var data = param.getAttribute("data");
 
         if ((date == "") || (data == "")) { 
@@ -174,8 +176,8 @@ if(!isset($_SESSION["admin"]))
                           var empJ = "emp"+j;
                           var empJ_elm = document.getElementById(empJ);
                           empJ_elm.classList.remove('green');
-                          empJ_elm.classList.remove('amber');
-                          empJ_elm.classList.add('blue');
+                          empJ_elm.classList.remove('red');
+                          empJ_elm.classList.add('red');
                           empJ_elm.setAttribute("data-status","ab");
                           var empJ_id = empJ_elm.getAttribute("data-empId");
                           document.getElementById("attendanceStatus"+empJ_id).innerHTML= "<P>IN&nbsp;&nbsp;-&nbsp;</P><P>O&nbsp;&nbsp;&nbsp;-&nbsp;</P><P>OT&nbsp;-&nbsp;</P>";
@@ -190,11 +192,17 @@ if(!isset($_SESSION["admin"]))
           }        
       }
 
-      function markAttendance(param) {
-        var data_empId = param.getAttribute("data-empId");
-        var data_status = param.getAttribute("data-status");
+      function markAttendance() {
+      var data_empId = document.getElementById("emp_id_time").value;
+      var div_id_time = document.getElementById("div_id_time").value;
+      var in_time = document.getElementById("in_time").value;
+      var out_time = document.getElementById("out_time").value;
+      var ot_time = document.getElementById("ot_time").value;
+      var date = document.getElementById("date").value;
 
-        if ((data_empId == "") || (data_status == "") || (data_status == "out")) { 
+        var data_status = document.getElementById(div_id_time).getAttribute("data-status");
+
+        if ((data_empId == "") || (in_time == "")) { 
           return;
         } else {
             var xmlhttp = new XMLHttpRequest();
@@ -204,7 +212,7 @@ if(!isset($_SESSION["admin"]))
                     var atStatus = "attendanceStatus"+data_empId;
                     if(val!='') {
                       if(data_status=="ab") {
-                        param.setAttribute("data-status","in");
+                        document.getElementById(div_id_time).setAttribute("data-status","in");
                         document.getElementById(atStatus).innerHTML = val;
                         var empPresentVal = parseInt(document.getElementById('empPresent').getAttribute('data-val'));
                         empPresentVal = empPresentVal + 1;
@@ -216,19 +224,18 @@ if(!isset($_SESSION["admin"]))
                         document.getElementById('empAbsent').setAttribute("data-val",empAbsentVal);
                         document.getElementById('empAbsent').innerHTML = "Absent - "+empAbsentVal;
 
-                        param.classList.remove('blue');
-                        param.classList.add('green');
+                        document.getElementById(div_id_time).classList.remove('red');
+                        document.getElementById(div_id_time).classList.add('green');
                       }
                       else {
-                        param.setAttribute("data-status","out");
+                        document.getElementById(div_id_time).setAttribute("data-status","out");
                         document.getElementById(atStatus).innerHTML = val;
-                        param.classList.remove('green');
-                        param.classList.add('amber');
                       }
                     }
+                    resetModalOpen();
                 }
             }
-            xmlhttp.open("GET", "markInOut.php?empId="+data_empId+"&data="+data_status, true);
+            xmlhttp.open("GET", "markInOut.php?empId="+data_empId+"&in_time="+in_time+"&out_time="+out_time+"&ot_time="+ot_time+"&data_status="+data_status+"&date="+date, true);
             xmlhttp.send();
           }        
       }
@@ -273,7 +280,23 @@ if(!isset($_SESSION["admin"]))
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var val = this.responseText;
-                    document.getElementById('employeeRows').innerHTML=val;                       
+                    if(val[0]!="-") {
+                      document.getElementById('employeeRows').innerHTML=val;
+                      document.getElementById('employeeRows').style.display="block";
+                      document.getElementById('holiday_working_btn').innerHTML = "MARK AS HOLIDAY";
+                      document.getElementById('holiday_working_btn').setAttribute("data","holiday");
+                      document.getElementById('holiday_working_btn').style.border = "solid 2px #ff6f00";
+                      document.getElementById('holiday_working_btn').classList.remove('blue-grey-text');
+                      document.getElementById('holiday_working_btn').classList.add('amber-text');
+                    }
+                    else {
+                      document.getElementById('employeeRows').style.display="none";
+                      document.getElementById('holiday_working_btn').innerHTML = "MARK AS WORKING DAY";
+                      document.getElementById('holiday_working_btn').setAttribute("data","working");
+                      document.getElementById('holiday_working_btn').style.border = "solid 2px #455a64";
+                      document.getElementById('holiday_working_btn').classList.remove('amber-text');
+                      document.getElementById('holiday_working_btn').classList.add('blue-grey-text');                      
+                    }
                 }
             }
             xmlhttp.open("GET", "fetchEmployeesForPlant_Date.php?plant="+val+"&date="+date, true);
@@ -391,12 +414,12 @@ if(!isset($_SESSION["admin"]))
         <?php 
           if($isHoliday=="false") {
         ?>
-      <button class="white amber-text text-darken-4 btn" onclick="markHoliday(this,<?php echo $noOfEmployees; ?>);" data="holiday" data-date="<?php echo $current_date; ?>" style="border: solid 2px #ff6f00;">MARK AS HOLIDAY</button>
+      <button class="white amber-text text-darken-4 btn" onclick="markHoliday(this,<?php echo $noOfEmployees; ?>);" data="holiday" id="holiday_working_btn" style="border: solid 2px #ff6f00;">MARK AS HOLIDAY</button>
         <?php
           }
           else {
         ?>
-      <button class="white  blue-grey-text text-darken-2 btn" onclick="markHoliday(this,<?php echo $noOfEmployees; ?>);" data="working" data-date="<?php echo $current_date; ?>" style="border: solid 2px #455a64 ;">MARK AS WORKING DAY</button>        
+      <button class="white  blue-grey-text text-darken-2 btn" onclick="markHoliday(this,<?php echo $noOfEmployees; ?>);" data="working" id="holiday_working_btn" style="border: solid 2px #455a64 ;">MARK AS WORKING DAY</button>        
         <?php    
           }
         ?>
@@ -436,6 +459,7 @@ if(!isset($_SESSION["admin"]))
         </div>
         <div class="col s12 m8 l8">
           <input type="hidden" name="emp_id_time" id="emp_id_time"/>
+          <input type="hidden" name="div_id_time" id="div_id_time"/>
           <div class="row">
             <div class="col s12 m6 l6">
               <p>IN</p>
@@ -461,7 +485,7 @@ if(!isset($_SESSION["admin"]))
             </div>
           </div> 
           <div class="row" align="center">
-           <button class="waves-effect waves-light btn" onclick="saveModalOpen();">SUBMIT</button>
+           <button class="waves-effect waves-light btn" onclick="markAttendance();">SUBMIT</button>
            &nbsp;&nbsp;&nbsp;
            <button class="waves-effect waves-light btn red-text white" onclick="document.getElementById('id01').style.display='none';">CANCEL</button>
           </div>                              

@@ -8,6 +8,12 @@
   $current_date = date("Y-m-d", $d); 
   $current_display_date = date("d-M-Y", $d);//YYYY-MM-DD  d-M-Y  
 
+$queryHoliday = "select * from holidays where date='".$current_date."'";
+$exeHoliday = mysqli_query($conn,$queryHoliday);
+if(mysqli_num_rows($exeHoliday) > 0) {
+  echo "-1";    
+}  
+else {
    $plant = $_REQUEST["plant"];
 
    if($plant == "all")
@@ -38,40 +44,26 @@
       while($empRow = mysqli_fetch_assoc($empExe))
       {
             $empIN = $empRow['in_time'];
-            $t1_explode = explode(":", $empIN);
-            $empIN = $t1_explode[0].':'.$t1_explode[1];
-
             $empOUT = $empRow['out_time'];
-            if($empOUT!="") {
-              $t1_explode = explode(":", $empOUT);
-              $empOUT = $t1_explode[0].':'.$t1_explode[1];              
-            }
- 
-
-            $empOT = $empRow['duration'];
-            if($empOT!="") {
-              $t1_explode = explode(":", $empOT);
-              $empOT = $t1_explode[0].':'.$t1_explode[1]; 
-            }
-            
+            $empOT = $empRow['ot_time'];
 
             if($empOUT=="") {
               $empStatus = "in";
               $empColor = "green";
             }
             else {
-              $empStatus = "out";
-              $empColor = "amber";              
+              $empStatus = "out";  
+              $empColor = "green";           
             }
       }
    }
    else {
       $empStatus = "ab";
-      $empColor = "blue";
+      $empColor = "red";
    }      
 ?>
     <div class="col s12 m4 l2" id="<?php echo "employee".$i ?>" data="<?php echo $employee['name']; ?>">
-      <a class="" onclick="modalOpen('<?php echo $employee["name"]; ?>','<?php echo $employee["emp_id"]; ?>','<?php echo $empIN; ?>','<?php echo $empOUT; ?>','<?php echo $empOT; ?>');"> 
+      <a class="" onclick="modalOpen('<?php echo $employee["name"]; ?>','<?php echo $employee["emp_id"]; ?>','<?php echo $empIN; ?>','<?php echo $empOUT; ?>','<?php echo $empOT; ?>','<?php echo "emp".$i; ?>');"> 
       <div class="card <?php echo $empColor; ?> lighten-1"  id="<?php echo "emp".$i ?>" style="border-radius: 6%;height: 115px;cursor: pointer;"  data-status="<?php echo $empStatus; ?>" data-empId="<?php echo $employee['emp_id']; ?>">
         <div class="card-content white-text">
           <div class="row" align="center" style="line-height: 0">
@@ -94,8 +86,8 @@
               <p>|</p>
             </div>                      
             <div class="col s6">
-              <div class="divider" style="height: 5px;background-color :transparent;"></div>
-              <div id="<?php echo 'attendanceStatus'.$employee['emp_id']; ?>">
+              <div class="divider" style="height: 9px;background-color :transparent;"></div>
+              <div id="<?php echo 'attendanceStatus'.$employee['emp_id']; ?>" style="font-size: 12px;">
                 <P>IN&nbsp;&nbsp;-&nbsp;<?php echo $empIN; ?></P>
                 <P>O&nbsp;&nbsp;&nbsp;-&nbsp;<?php echo $empOUT; ?></P>
                 <P>OT&nbsp;-&nbsp;<?php echo $empOT; ?></P>
@@ -108,5 +100,6 @@
     </div>   
 <?php
     }
+  }
 mysqli_close($conn);    
 ?>   
