@@ -316,14 +316,14 @@ if(!isset($_SESSION["admin"]))
         <li class="active"><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a href="attendanceRecords.php">Attendance Records</a></li>
+        <li><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li class="active"><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a href="attendanceRecords.php">Attendance Records</a></li>
+        <li><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>        
       </ul>      
     </div>
