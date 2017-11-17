@@ -32,7 +32,6 @@ if(!isset($_SESSION["admin"]))
   </style>
 
   <script type="text/javascript">
-
     $(document).ready(function(){   
     $(".button-collapse").sideNav(); 
       $('.datepicker').pickadate({
@@ -44,70 +43,209 @@ if(!isset($_SESSION["admin"]))
         closeOnSelect: true // Close upon selecting a date,
       });
     });
-
-    function myFunction(length) {
-      var input, filter, i, divId, divElm;
-      input = document.getElementById("myInput");
-      filter = input.value.toUpperCase();
-      for (i = 0; i < length; i++) {
-        //td = tr[i].getElementsByTagName("td")[0];
-        divId = "employee"+i;
-        divElm = document.getElementById(divId);
-        if (divElm) {
-          if (divElm.getAttribute("data").toUpperCase().indexOf(filter) > -1) {
-            divElm.style.display = "";
-          } else {
-            divElm.style.display = "none";
-          }
-        }
-      }
-    }
-
-      function loadDatas(date) {
-        if (date == "") { 
-          return;
-        } else {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var val = this.responseText;
-                    var presentCount = parseInt(val);
-                    if(presentCount==-1) {
-                        document.getElementById('empPresent').innerHTML = "Present - 0";
-                        document.getElementById('empAbsent').innerHTML = "Absent - 0"; 
-                    }
-                    else {
-                        var totalCount = parseInt(document.getElementById('empTotal').getAttribute('data-val'));
-                        var abCount = totalCount - presentCount;
-                        document.getElementById('empPresent').innerHTML = "Present - "+presentCount;
-                        document.getElementById('empAbsent').innerHTML = "Absent - "+abCount;                      
-                    }
-                    //document.getElementById('employeeRows').innerHTML=val;                       
-                }
-            }
-            xmlhttp.open("GET", "loadDatasForDate.php?date="+date, true);
-            xmlhttp.send();
-          }        
-      }    
-
-      function fetchAttendance(date) {
-        if (date == "") { 
-          return;
-        } else {
-            loadDatas(date);
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var val = this.responseText;
-                    document.getElementById('employeeRows').innerHTML=val;                       
-                }
-            }
-            xmlhttp.open("GET", "fetchAttendanceForDate.php?date="+date, true);
-            xmlhttp.send();
-          }        
-      }    
-
   </script>
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="materialize/charts/loader.js"></script>
+
+<?php
+  include("DB/db.php");
+  $query1 = "select * from employee where gender='male' and status=1";
+  $exe1 = mysqli_query($conn,$query1);
+  $maleCount = mysqli_num_rows($exe1); 
+
+  $query2 = "select * from employee where gender='female' and status=1";
+  $exe2 = mysqli_query($conn,$query2);
+  $femaleCount = mysqli_num_rows($exe2);    
+?>
+
+    <!-- Chart1 script -->
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart1);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart1, passes in the data and
+      // draws it.
+      function drawChart1() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Gender');
+        data.addColumn('number', 'Value');
+        data.addRows([
+          ['Male', <?php echo $maleCount; ?>],
+          ['Female', <?php echo $femaleCount; ?>]
+        ]);
+
+        // Set chart1 options
+        var options = {'title':'Gender distribution in the company',
+                        'is3D': true,
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart1, passing in some options.
+        var chart1 = new google.visualization.PieChart(document.getElementById('chart_div1'));
+        chart1.draw(data, options);
+      }
+    </script>
+
+<?php
+  include("DB/db.php");
+  $query3 = "select * from employee where type='monthly' and status=1";
+  $exe3 = mysqli_query($conn,$query3);
+  $monthlyCount = mysqli_num_rows($exe3); 
+
+  $query4 = "select * from employee where type='daily' and status=1";
+  $exe4 = mysqli_query($conn,$query4);
+  $dailyCount = mysqli_num_rows($exe4);    
+?>
+
+    <!-- Chart2 script -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart2);
+
+      function drawChart2() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['SalaryType', 'Count'],
+          ['Monthly Salary', <?php echo $monthlyCount; ?>],
+          ['Daily wages', <?php echo $dailyCount; ?>]
+        ]);
+
+        var options = {
+          'title': 'Salary Type in the company',
+          'is3D': true,
+           'width':400,
+           'height':300          
+        };
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+
+        chart2.draw(data, options);
+      }
+    </script>    
+
+<?php
+  include("DB/db.php");
+  $query5 = "select * from employee where bankAccountNumber=0 and status=1";
+  $exe5 = mysqli_query($conn,$query5);
+  $noCount = mysqli_num_rows($exe5); 
+
+  $query6 = "select * from employee where status=1";
+  $exe6 = mysqli_query($conn,$query6);
+  $totalCount = mysqli_num_rows($exe6); 
+  $yesCount = $totalCount - $noCount;   
+?>
+
+    <!-- Chart3 script -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart3);
+
+      function drawChart3() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['BankAccount', 'Count'],
+          ['Yes', <?php echo $yesCount; ?>],
+          ['No', <?php echo $noCount; ?>]
+        ]);
+
+        var options = {
+          'title': 'No. of Employees having Bank account in the company',
+          'is3D': true,
+           'width':400,
+           'height':300          
+        };
+
+        var chart3 = new google.visualization.PieChart(document.getElementById('chart_div3'));
+
+        chart3.draw(data, options);
+      }
+    </script>
+
+<?php
+  include("DB/db.php");
+  $query7 = "select * from employee where plant='Jelly' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $jellyCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='Waffer' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $wafferCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='Cup' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $cupCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='Toy_Jar' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $toy_jarCount = mysqli_num_rows($exe7);       
+
+  $query7 = "select * from employee where plant='Lollypop' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $lollypopCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='Coffee' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $coffeeCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='Utility' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $utilityCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='ETP_Boilers' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $etp_BoilersCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='Electrical' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $electricalCount = mysqli_num_rows($exe7);
+
+  $query7 = "select * from employee where plant='Driver' and status=1";
+  $exe7 = mysqli_query($conn,$query7);
+  $driverCount = mysqli_num_rows($exe7);    
+?>
+
+    <!-- Chart4 script -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart4);
+
+      function drawChart4() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Plant', 'Count'],
+          ['Jelly', <?php echo $jellyCount; ?>],
+          ['Waffer', <?php echo $wafferCount; ?>],
+          ['Cup', <?php echo $cupCount; ?>],
+          ['Toy_Jar', <?php echo $toy_jarCount; ?>],
+          ['Lollypop', <?php echo $lollypopCount; ?>],
+          ['Coffee', <?php echo $coffeeCount; ?>],
+          ['Utility', <?php echo $utilityCount; ?>],
+          ['ETP_Boilers', <?php echo $etp_BoilersCount; ?>],
+          ['Electrical', <?php echo $electricalCount; ?>],
+          ['Driver', <?php echo $driverCount; ?>]
+        ]);
+
+        var options = {
+          'title': 'Employees count for each plant in the company',
+          'is3D': true,
+           'width':400,
+           'height':300          
+        };
+
+        var chart4 = new google.visualization.PieChart(document.getElementById('chart_div4'));
+
+        chart4.draw(data, options);
+      }
+    </script>        
+
 </head>
 <body>
   <nav>
@@ -131,56 +269,29 @@ if(!isset($_SESSION["admin"]))
       </ul>      
     </div>
   </nav>  
+
   <div class="row" align="center">
-<?php
-
-   include("DB/db.php");
-   date_default_timezone_set("Asia/Kolkata");  
-
-   $query = "select * from employee where status=1";
-   $exe = mysqli_query($conn,$query);
-   $noOfEmployees = mysqli_num_rows($exe); 
-   $noAbsent = 0;
-   $noPresent = 0;  
-  
-?>     
-    <div class="col s12 m3 l3">
-      <br/>
-      <div class="input-field col s12">
-        <i class="material-icons prefix green-text text-darken-2">search</i>
-        <input type="text" name="myInput" placeholder="Search Employee.." id="myInput"
-          onkeyup="myFunction(<?php echo $noOfEmployees; ?>)" class="blue-grey-text text-darken-3">
-      </div>
-    </div>   
-    <div class="col s12 m2 l2">
-      <br/><br/>
-      <div class="chip blue lighten-1 white-text" id="empTotal" style="padding: 0 24px;" data-val="<?php echo $noOfEmployees; ?>">
-        Employees - <?php echo $noOfEmployees; ?>
-      </div>
+    <div class="col s12 m6 l6">
+      <!--Div that will hold the pie chart1-->
+      <div id="chart_div1"></div>
     </div>
-    <div class="col s12 m2 l2">
-      <br/><br/>    
-      <div class="chip green lighten-1 white-text" id="empPresent" style="padding: 0 24px;">
-        Present - <?php echo $noPresent; ?>
-      </div>
+    <div class="col s12 m6 l6">
+      <!--Div that will hold the pie chart2-->
+      <div id="chart_div2"></div>
     </div>
-    <div class="col s12 m2 l2">
-      <br/><br/>    
-      <div class="chip red lighten-1 white-text" id="empAbsent" style="padding: 0 24px;">
-        Absent - <?php echo $noAbsent; ?>
-      </div>    
-    </div>  
-    <div class="col s12 m3 l3">
-      <br/>
-        <div class="input-field col s10">
-          <input id="date" name="date" type="text" class="datepicker" onchange="fetchAttendance(this.value);"/>
-          <label for="date">DATE</label>
-        </div>
-  
-    </div>            
-  </div> 
- <div class="row" id="employeeRows">  </div>
-           
+  </div>
+
+  <div class="row" align="center">
+    <div class="col s12 m6 l6">      
+      <!--Div that will hold the pie chart3-->
+      <div id="chart_div3"></div>
+    </div>
+    <div class="col s12 m6 l6">
+      <!--Div that will hold the pie chart4-->
+      <div id="chart_div4"></div>      
+    </div>
+  </div>  
+    
 </body>
 </html>
 <?php
