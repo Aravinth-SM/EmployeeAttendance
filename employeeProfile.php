@@ -34,24 +34,26 @@ if(!isset($_SESSION["admin"]))
       td,th {
         padding: 10px 5px;
       }
+      [type="checkbox"] + label, [type="radio"] + label {
+        pointer-events: auto;
+      }      
   </style> 
   <script type="text/javascript">
       $(document).ready(function(){
        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.collapsible').collapsible();
         $('select').material_select();
-        $('.modal-trigger').leanModal();
         $(".button-collapse").sideNav();
 
-        $('.modal-trigger').leanModal({
-            dismissible: true, // Modal can be dismissed by clicking outside of the modal
-            opacity: .5, // Opacity of modal background
-            inDuration: 300, // Transition in duration
-            outDuration: 200, // Transition out duration
-            startingTop: '4%', // Starting top style attribute
-            endingTop: '10%', // Ending top style attribute
-            complete: function() { location.reload(); } // Callback for Modal close
-        });
+        $('.datepicker').pickadate({     
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 50, // Creates a dropdown of 15 years to control year,
+          today: 'Today',
+          clear: 'Clear',
+          close: 'Ok',
+          closeOnSelect: true // Close upon selecting a date,
+        });        
+
       });
 
       function loadDatas(empId) {

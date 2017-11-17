@@ -1,4 +1,8 @@
-show holiday when date selected
+day wise attendance report chart -overall [present,absent] [with given week]
+day wise attendance report chart -overall [inTime,outTime,OT] [with given week and empID]
+month wise attendance report chart -overall[present,absent,holiday] [for given 6months and empID]
+
+
 mask
 
 Add employee -> message on submit

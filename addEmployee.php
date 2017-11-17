@@ -33,6 +33,9 @@ if(!isset($_SESSION["admin"]))
       .helloFont1 {
         font-family:"Gumption lite";
       }
+      [type="checkbox"] + label, [type="radio"] + label {
+        pointer-events: auto;
+      }
   </style>
 
   <script type="text/javascript">
