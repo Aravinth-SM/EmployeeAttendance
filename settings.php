@@ -65,7 +65,34 @@ if(!isset($_SESSION["admin"]))
         <li><a href="logout.php">Log out</a></li>        
       </ul>
     </div>
-  </nav>  
+  </nav> 
+<?php
+  include("DB/db.php");
+
+  $month = date("m");
+  $year  = date("Y");
+  if($month<10)
+    $monthStr = '0'.$month;
+  else
+    $monthStr = $month;
+  $month = $year.'-'.$monthStr;
+
+        $busAmt = 0;
+        $messAmt = 0;
+        $PF_val = 0;
+        $ESI_val = 0;
+
+    $queryVar = "select * from variables where month='".$month."'";
+    $exeVar = mysqli_query($conn,$queryVar);
+    while($variable = mysqli_fetch_assoc($exeVar))
+    {
+      $busAmt = $variable['bus_fare'];
+      $messAmt = $variable['mess_fare'];
+      $PF_val = $variable['PF'];
+      $ESI_val = $variable['ESI'];
+    }
+
+?>   
   <div class="row" align="center">
     <div class="col s12 m3 l3">
       <br/>
@@ -74,26 +101,26 @@ if(!isset($_SESSION["admin"]))
       <form method="post" novalidate>
         <div class="row">
           <div class="input-field col s12">
-            <input id="name" name="name" type="text" class="validate" required="required" autofocus="autofocus">
-            <label for="name">Bus Fare (in Rs.)</label>
+            <input id="busFare" name="busFare" type="text" class="validate" required="required" autofocus="autofocus" value="<?php echo $busAmt; ?>">
+            <label for="busFare">Bus Fare (in Rs.)</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="empId" name="empId" type="text" class="validate" required="required">
-            <label for="empId">Mess Fare (in Rs.)</label>
+            <input id="messFare" name="messFare" type="text" class="validate" required="required" value="<?php echo $messAmt; ?>">
+            <label for="messFare">Mess Fare (in Rs.)</label>
           </div>
         </div> 
         <div class="row">
           <div class="input-field col s12">
-            <input id="empId" name="empId" type="text" class="validate" required="required">
-            <label for="empId">PF (in %)</label>
+            <input id="PF" name="PF" type="text" class="validate" required="required" value="<?php echo $PF_val; ?>">
+            <label for="PF">PF (in %)</label>
           </div>
         </div> 
         <div class="row">
           <div class="input-field col s12">
-            <input id="empId" name="empId" type="text" class="validate" required="required">
-            <label for="empId">ESI (in %)</label>
+            <input id="ESI" name="ESI" type="text" class="validate" required="required" value="<?php echo $ESI_val; ?>">
+            <label for="ESI">ESI (in %)</label>
           </div>
         </div>                                                     
 <br/>
@@ -114,11 +141,19 @@ if(!isset($_SESSION["admin"]))
 if(isset($_POST["submit"]))
 {
 
-  //$empId = $_POST["empId"];
+  $busFare = $_POST["busFare"];
+  $messFare = $_POST["messFare"];
+  $PF = $_POST["PF"];
+  $ESI = $_POST["ESI"];
 
-  include("DB/db.php");
+$execute = mysqli_query($conn,"update variables set bus_fare='".$busFare."',mess_fare='".$messFare."',PF='".$PF."',ESI='".$ESI."' where month='".$month."' ");
+
+
+   echo "<script>window.location.href='settings.php';</script>";  
+
+}
 
   mysqli_close($conn);
-}
+
 
 ?>
