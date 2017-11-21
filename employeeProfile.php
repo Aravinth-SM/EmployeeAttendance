@@ -44,7 +44,7 @@ if(!isset($_SESSION["admin"]))
         $('.collapsible').collapsible();
         $('select').material_select();
         $(".button-collapse").sideNav();
-
+        $('.modal').modal();
         $('.datepicker').pickadate({     
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 50, // Creates a dropdown of 15 years to control year,
@@ -56,45 +56,23 @@ if(!isset($_SESSION["admin"]))
 
       });
 
-      function loadDatas(empId) {
-        var month = document.getElementById("month").value;
-        var year = document.getElementById("year").value;
+      function fetchTableReportInOut(empId) {
+        var month = document.getElementById('month').value;
+        var year = document.getElementById('year').value;
         if ( (month == "") || (year == "") ) { 
           return;
         } else {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                  var val = this.responseText;
-                  var splitedVal = val.split(":");
-                    //document.getElementById("monthAttendance").innerHTML = this.responseText;
-                    document.getElementById("empPresent").innerHTML = "Present - "+splitedVal[0];
-                    document.getElementById("empAbsent").innerHTML = "Absent -"+splitedVal[1];
-                    document.getElementById("empHoliday").innerHTML = "Holidays -"+splitedVal[2];
+                    var val = this.responseText;
+                    document.getElementById('tableReportInOut').innerHTML=val;
                 }
             }
-            xmlhttp.open("GET", "loadDatasMonthAttendance.php?month="+month+"&year="+year+"&empId="+empId, true);
+            xmlhttp.open("GET", "fetchTableReportInOutForMonth_Year.php?month="+month+"&year="+year+"&empId="+empId, true);
             xmlhttp.send();
           }        
-      }      
-
-      function showMonthAttendance(empId) {
-        var month = document.getElementById("month").value;
-        var year = document.getElementById("year").value;
-        if ( (month == "") || (year == "") ) { 
-          return;
-        } else {
-            loadDatas(empId);
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("monthAttendance").innerHTML = this.responseText;
-                }
-            }
-            xmlhttp.open("GET", "fetchMonthAttendance.php?month="+month+"&year="+year+"&empId="+empId, true);
-            xmlhttp.send();
-          }        
-      }
+      }     
 
       function deleteEmp(empId) {
         if(empId == "") { 
@@ -245,61 +223,97 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
        </li>
       </ul>
       <br/>
-      <a class="waves-effect waves-light btn modal-trigger" href="#modalAttendance">VIEW ATTENDANCE</a>
+      <a class="waves-effect waves-light btn modal-trigger" href="#modalAttendance">RECORDS</a>
       &nbsp;&nbsp;&nbsp;
       <button class="waves-effect waves-light btn red-text white" onclick="deleteEmp(<?php echo $employee['emp_id']; ?>);">DELETE EMPLOYEE</button>
       <!-- Modal Structure Open -->
       <div id="modalAttendance" class="modal" style="width: 1200px;max-height: 600px;">
          <div class="modal-content">
 
-      <div class="row">      
-         <div class="col s12 m4 l3">
-          <div class="chip green white-text" id="empPresent" style="padding: 0 8px;">
-            Present - 0
-          </div>
-          <div class="chip red white-text" id="empAbsent" style="padding: 0 8px;">
-            Absent - 0
-          </div>
-          <div class="chip blue white-text" id="empHoliday" style="padding: 0 8px;">
-            Holidays - 0
-          </div>                    
-         </div>       
-         <div class="input-field col s3 m4 l3">
-          <select id="month" name="month">
-            <option value="" disabled selected>Choose month</option>
-            <option value="1">January-01</option>
-            <option value="2">Feburary-02</option>
-            <option value="3">March-03</option>
-            <option value="4">April-04</option>
-            <option value="5">May-05</option>
-            <option value="6">June-06</option>
-            <option value="7">July-07</option>
-            <option value="8">August-08</option>
-            <option value="9">September-09</option>
-            <option value="10">October-10</option>
-            <option value="11">November-11</option>
-            <option value="12">December-12</option>                                    
-          </select>
-          <label>Month</label>
-         </div>
-         <div class="input-field col s3 m4 l4">
-          <select id="year" name="year">
-            <option value="" disabled selected>Choose year</option>
-            <option value="2013">2013</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>            
-          </select>
-          <label>Year</label>
-         </div> 
-         <div class="col s12 m4 l2">
-            <br/>
-            <button class="waves-effect waves-light btn" onclick="showMonthAttendance('<?php echo $employee['emp_id']; ?>');">SUBMIT</button>
-         </div>                                    
-      </div>          
-      <div class="divider" style="height: 4px;background-color :black;"></div><br/>
-      <div class="row" id="monthAttendance"></div>
+<?php
+
+  $month = date("m");
+  $year = date("Y");
+
+?>
+
+  <div class="row" align="center">
+    <ul class="collapsible" data-collapsible="accordion" style="width: 90%;">
+      <li>
+        <div class="collapsible-header active teal-text"><b><i class="material-icons">filter_drama</i>Employee In / Out report for particular month</b></div>
+        <div class="collapsible-body">
+          <div class="row">
+            <div class="input-field col s12 m6 l6">
+              <select name="month" id="month" onchange="fetchTableReportInOut('<?php echo $employee['emp_id']; ?>');">
+                <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
+                <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
+                <option value="3" <?php if($month==3){echo "selected";}else{echo "";} ?> >03-March</option>
+                <option value="4" <?php if($month==4){echo "selected";}else{echo "";} ?> >04-April</option>
+                <option value="5" <?php if($month==5){echo "selected";}else{echo "";} ?> >05-May</option>
+                <option value="6" <?php if($month==6){echo "selected";}else{echo "";} ?> >06-June</option>
+                <option value="7" <?php if($month==7){echo "selected";}else{echo "";} ?> >07-July</option> 
+                <option value="8" <?php if($month==8){echo "selected";}else{echo "";} ?> >08-August</option>
+                <option value="9" <?php if($month==9){echo "selected";}else{echo "";} ?> >09-September</option>
+                <option value="10" <?php if($month==10){echo "selected";}else{echo "";} ?> >10-October</option>
+                <option value="11" <?php if($month==11){echo "selected";}else{echo "";} ?> >11-November</option>
+                <option value="12" <?php if($month==12){echo "selected";}else{echo "";} ?> >12-December</option>
+              </select>
+              <label>Month</label>
+            </div> 
+            <div class="input-field col s12 m6 l6">
+              <select name="year" id="year" onchange="fetchTableReportInOut('<?php echo $employee['emp_id']; ?>');">
+                <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
+                <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
+              </select>
+              <label>Year</label>
+            </div>             
+          </div> 
+<?php
+  echo "<script>fetchTableReportInOut('".$employee['emp_id']."');</script>";
+?>          
+          <div class="row" id="tableReportInOut">
+          </div>        
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header active teal-text"><b><i class="material-icons">filter_drama</i>Employee's monthly report</b></div>
+        <div class="collapsible-body">
+          <div class="row" id="tableReport">
+            <table class="highlight centered">
+              <thead style="font-size: 16px;">
+                <tr>
+                  <th>MONTH</th>
+                  <th>PRESENT</th>
+                  <th>ABSENT</th>
+                  <th>HOLIDAY</th>
+                  <th>OT</th>
+                  <th>PF</th>
+                  <th>ESI</th>
+                  <th>BUS FARE</th>
+                  <th>MESS FARE</th>
+                  <th>SALARY PAID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><?php echo $month; ?></td>
+                  <td><?php echo $year; ?></td>
+                  <td></td>
+                  <td></td>
+                  <td></td> 
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>                                          
+                </tr>                                
+              </tbody>
+            </table>            
+          </div>          
+        </div>
+      </li>      
+    </ul>
+  </div>
 
          </div>
       </div>

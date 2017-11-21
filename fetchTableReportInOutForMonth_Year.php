@@ -3,6 +3,7 @@
   include("DB/db.php");
   $month = $_REQUEST["month"];
   $year = $_REQUEST["year"];
+  $empId = $_REQUEST["empId"];
 
 ?>
 
@@ -15,31 +16,17 @@
 <table class="highlight centered">
   <thead style="font-size: 16px;">
     <tr>
-        <th>EMP ID</th>
-        <th>EMP NAME</th>
-        <th>PLANT</th>
-        <th>PRESENT</th>
-        <th>ABSENT</th>
-        <th>HOLIDAY</th>
+        <th>DATE</th>
+        <th>DAY</th>
+        <th>IN</th>
+        <th>OUT</th>
         <th>OT</th>
-        <th>PF</th>
-        <th>ESI</th>
-        <th>BUS FARE</th>
-        <th>MESS FARE</th>
-        <th>SALARY PAID</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><?php echo $month; ?></td>
       <td><?php echo $year; ?></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>                        
