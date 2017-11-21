@@ -277,6 +277,7 @@ if(!isset($_SESSION["admin"]))
         <li><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
+        <li><a href="settings.php">Settings</a></li>
         <li class="active"><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>
       </ul>
@@ -284,6 +285,7 @@ if(!isset($_SESSION["admin"]))
         <li><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
+        <li><a href="settings.php">Settings</a></li>
         <li class="active"><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>        
       </ul>      
