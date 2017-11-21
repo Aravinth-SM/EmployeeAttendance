@@ -303,26 +303,47 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
                   <th>ABSENT</th>
                   <th>HOLIDAY</th>
                   <th>OT</th>
+                  <th>BUS FARE</th>
+                  <th>MESS FARE</th>                  
                   <th>PF</th>
                   <th>ESI</th>
-                  <th>BUS FARE</th>
-                  <th>MESS FARE</th>
                   <th>SALARY PAID</th>
                 </tr>
               </thead>
               <tbody>
+<?php
+
+  for($i=$month;$i>0;$i--)
+  {
+    if($i<10)
+      $monthStr = '0'.$i;
+    else
+      $monthStr = $i;
+    $month = $year."-".$monthStr;
+
+    //echo "<script>alert('".$employee["emp_id"]."');</script>";
+
+    $querySal = "select * from salary where emp_id='".$employee["emp_id"]."' and month='".$month."' ";
+    $exeSal = mysqli_query($conn,$querySal); 
+    while($employeeSal = mysqli_fetch_assoc($exeSal))
+    {    
+?>
                 <tr>
                   <td><?php echo $month; ?></td>
-                  <td><?php echo $year; ?></td>
-                  <td></td>
-                  <td></td>
-                  <td></td> 
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>                                          
-                </tr>                                
+                  <td><?php echo $employeeSal["present"]; ?></td>
+                  <td><?php echo $employeeSal["absent"]; ?></td>
+                  <td><?php echo $employeeSal["holiday"]; ?></td>
+                  <td><?php echo $employeeSal["OT"]; ?></td> 
+                  <td><?php echo $employeeSal["bus_fare"]; ?></td>
+                  <td><?php echo $employeeSal["mess_fare"]; ?></td>
+                  <td><?php echo $employeeSal["PF"]; ?></td>
+                  <td><?php echo $employeeSal["ESI"]; ?></td>
+                  <td><?php echo $employeeSal["salary"]; ?></td>                                          
+                </tr> 
+<?php
+    }
+  }
+?>
               </tbody>
             </table>            
           </div>          

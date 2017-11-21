@@ -322,7 +322,7 @@ if(!isset($_SESSION["admin"]))
 ?>
 
   <div class="row" align="center">
-    <ul class="collapsible" data-collapsible="accordion" style="width: 90%;">
+    <ul class="collapsible" data-collapsible="accordion" style="width: 98%;">
       <li>
         <div class="collapsible-header active teal-text"><b><i class="material-icons">filter_drama</i>Employees report for particular month</b></div>
         <div class="collapsible-body">
