@@ -73,7 +73,7 @@ if(!isset($_SESSION["admin"]))
       $('select').material_select();
       $(".button-collapse").sideNav(); 
       $('.datepicker').pickadate({
-        min: [2017,9,20],
+        min: [2017,7,30],
         max: [2018,11,29],      
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 10, // Creates a dropdown of 15 years to control year,

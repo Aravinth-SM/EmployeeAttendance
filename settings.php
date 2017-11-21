@@ -75,31 +75,31 @@ if(!isset($_SESSION["admin"]))
         <div class="row">
           <div class="input-field col s12">
             <input id="name" name="name" type="text" class="validate" required="required" autofocus="autofocus">
-            <label for="name">Bus Fare</label>
+            <label for="name">Bus Fare (in Rs.)</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <input id="empId" name="empId" type="text" class="validate" required="required">
-            <label for="empId">Mess Fare</label>
+            <label for="empId">Mess Fare (in Rs.)</label>
           </div>
         </div> 
         <div class="row">
           <div class="input-field col s12">
             <input id="empId" name="empId" type="text" class="validate" required="required">
-            <label for="empId">PF</label>
+            <label for="empId">PF (in %)</label>
           </div>
         </div> 
         <div class="row">
           <div class="input-field col s12">
             <input id="empId" name="empId" type="text" class="validate" required="required">
-            <label for="empId">ESI</label>
+            <label for="empId">ESI (in %)</label>
           </div>
         </div>                                                     
 <br/>
         <div class="row">
           <button class="waves-effect waves-light btn" id="submit" name="submit">SAVE</button> &nbsp;&nbsp;&nbsp;
-          <button  type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>
+          <button type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>
         </div> 
       </form>                           
     </div>

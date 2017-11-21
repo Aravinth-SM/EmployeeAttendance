@@ -44,6 +44,31 @@ html, body {
 }
 </style>
 
+<script type="text/javascript">
+      function currentMonthVaraibleEntry() {
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  var val = this.responseText;
+              }
+          }
+          xmlhttp.open("GET", "variableEntry.php", true);
+          xmlhttp.send();        
+      }
+      function calculateSalary() {
+          currentMonthVaraibleEntry();
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  var val = this.responseText;
+                  location.reload();
+              }
+          }
+          xmlhttp.open("GET", "calculateSalary.php", true);
+          xmlhttp.send();        
+      }  
+</script>
+
 </head>
 
 <body >
@@ -71,11 +96,11 @@ html, body {
 </div>
 <?php
 
-if(isset($_SESSION["msg"]))
-{
-  echo '<script>Materialize.toast("'.$_SESSION["msg"].'",8000);</script>';
-  unset($_SESSION["msg"]);
-}
+// if(isset($_SESSION["msg"]))
+// {
+//   echo '<script>Materialize.toast("'.$_SESSION["msg"].'",8000);</script>';
+//   unset($_SESSION["msg"]);
+// }
 
 
 if(isset($_POST["submit"]))
@@ -92,7 +117,8 @@ if(isset($_POST["submit"]))
    if(mysqli_num_rows($exe) > 0)
    {
       $_SESSION["admin"] = 1;
-      header("location:viewAttendance.php");    
+      echo "<script>calculateSalary();</script>";
+      //header("location:viewAttendance.php");    
    }
    else
     {

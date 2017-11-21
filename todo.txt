@@ -7,4 +7,7 @@ validation
 code alignment
 
 html to pdf & download
-salary calculations
+//salary calculations
+
+update `attendance` set date="2017-09-06" WHERE date="2017-09-02"
+"ID" in attendance table

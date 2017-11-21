@@ -172,13 +172,27 @@ $isBusFare = $employee['busFare'];
 $isMessFare = $employee['messFare'];
 $bankAccountNumber = $employee['bankAccountNumber'];
 
+  $month1 = date("m");
+  $year1  = date("Y");
+  $month1 = $year1.'-'.$month1;
+
+    $queryVar = "select * from variables where month='".$month1."'";
+    $exeVar = mysqli_query($conn,$queryVar);
+    while($variable = mysqli_fetch_assoc($exeVar))
+    {
+      $busAmt = $variable['bus_fare'];
+      $messAmt = $variable['mess_fare'];
+      //$PF = $variable['PF'];
+      //$ESI = $variable['ESI'];
+    }
+
 if($isBusFare)
-  $busFare = 20;
+  $busFare = $busAmt;
 else
   $busFare = 0;
 
 if($isMessFare)
-  $messFare = 200;
+  $messFare = $messAmt;
 else
   $messFare = 0;
 
