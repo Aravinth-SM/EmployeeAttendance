@@ -366,7 +366,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
       </div>
       <div class="row">
        <div class="input-field col s12">
-         <input id="empId" name="empId" type="text" class="validate" value="<?php echo $employee['emp_id']; ?>">
+         <input id="empId" name="empId" type="text" readonly="readonly" value="<?php echo $employee['emp_id']; ?>">
          <label for="empId">Employee ID</label>
        </div>
       </div>
