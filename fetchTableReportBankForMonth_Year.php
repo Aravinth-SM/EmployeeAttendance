@@ -3,7 +3,6 @@
   include("DB/db.php");
   $month = $_REQUEST["month"];
   $year = $_REQUEST["year"];
-  $plant = $_REQUEST["plant"];
   if($month<10)
     $monthStr = '0'.$month;
   else
@@ -23,28 +22,21 @@
         <th>EMP ID</th>
         <th>EMP NAME</th>
         <th>PLANT</th>
-        <th>PRESENT</th>
-        <th>ABSENT</th>
-        <th>HOLIDAY</th>
-        <th>OT</th>
-        <th>PER DAY</th>
-        <th>PER HOUR</th>
+        <th>ACCOUNT NUMBER</th>
+        <th>BRANCH NAME</th>
+        <th>BRANCH CODE</th>
+        <th>GROSS SALARY</th>
         <th>BUS FARE</th>
         <th>MESS FARE</th>
         <th>PF</th>
         <th>ESI</th>
-        <th>SALARY PAID</th>
+        <th>NET SALARY</th>
     </tr>
   </thead>
   <tbody>
 <?php
 
-   if($plant == "all")
-    $query = "select * from employee where status=1 order by emp_id";
-   else
-    $query = "select * from employee where status=1 and plant='".$plant."' order by emp_id";  
-
-    //$query = "select * from employee where status=1 order by emp_id";
+    $query = "select * from employee where status=1 and bankAccountNumber>0 order by emp_id";
     $exe = mysqli_query($conn,$query);
     while($employee = mysqli_fetch_assoc($exe))
     {     
@@ -52,17 +44,16 @@
         $exeSal = mysqli_query($conn,$querySal); 
         while($employeeSal = mysqli_fetch_assoc($exeSal))
         {
+          $grossSalary = $employeeSal["salary"] + $employeeSal["bus_fare"] + $employeeSal["mess_fare"] + $employeeSal["PF"] + $employeeSal["ESI"];
 ?>    
     <tr>
       <td><?php echo $employee["emp_id"]; ?></td>
       <td><?php echo $employee["name"]; ?></td>
       <td><?php echo $employee["plant"]; ?></td>
-      <td><?php echo $employeeSal["present"]; ?></td>
-      <td><?php echo $employeeSal["absent"]; ?></td>
-      <td><?php echo $employeeSal["holiday"]; ?></td>
-      <td><?php echo $employeeSal["OT"]; ?></td>
-      <td><?php echo $employeeSal["perDay"]; ?></td>
-      <td><?php echo $employeeSal["perHour"]; ?></td>
+      <td><?php echo $employee["bankAccountNumber"]; ?></td>
+      <td><?php echo $employee["branchName"]; ?></td>
+      <td><?php echo $employee["branchCode"]; ?></td>
+      <td><?php echo $grossSalary; ?></td>
       <td><?php echo $employeeSal["bus_fare"]; ?></td>
       <td><?php echo $employeeSal["mess_fare"]; ?></td>
       <td><?php echo $employeeSal["PF"]; ?></td>

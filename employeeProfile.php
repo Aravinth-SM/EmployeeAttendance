@@ -256,7 +256,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
   <div class="row" align="center">
     <ul class="collapsible" data-collapsible="accordion" style="width: 90%;">
       <li>
-        <div class="collapsible-header active teal-text"><b><i class="material-icons">filter_drama</i>Employee In / Out report for particular month</b></div>
+        <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employee In / Out report for particular month</b></div>
         <div class="collapsible-body">
           <div class="row">
             <div class="input-field col s12 m6 l6">
@@ -292,7 +292,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
         </div>
       </li>
       <li>
-        <div class="collapsible-header active teal-text"><b><i class="material-icons">filter_drama</i>Employee's monthly report</b></div>
+        <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employee's monthly report</b></div>
         <div class="collapsible-body">
           <div class="row" id="tableReport">
             <table class="highlight centered">

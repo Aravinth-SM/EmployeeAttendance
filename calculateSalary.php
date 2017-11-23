@@ -75,7 +75,7 @@
 		  	}
 		  	else
 		  	{
-		  		$perDay = $employee['salary'];
+		  		$perDay = round( (int)$employee['salary'] , 2 );
 		  		$perHour = round( (( (int)$perDay ) / 9.5) , 2 );
 		  	}
 

@@ -1,13 +1,8 @@
-
-mask
-
-Add employee -> message on submit
-Edit employee -> message on submit
 validation
-code alignment
 
+code alignment
+mask
 html to pdf & download
 //salary calculations
-
-update `attendance` set date="2017-09-06" WHERE date="2017-09-02"
-"ID" in attendance table
+//update `attendance` set date="2017-09-06" WHERE date="2017-09-02"
+//"ID" in attendance table
