@@ -35,12 +35,18 @@ if(!isset($_SESSION["admin"]))
       }
   </style>
 
+  <style type="text/css">
+    td,th {
+      padding: 10px 5px;
+    }     
+  </style>
+
   <script type="text/javascript">
     $(document).ready(function(){  
       $(".button-collapse").sideNav();
     });
-
   </script>
+
 </head>
 <body>
   <nav>
@@ -94,8 +100,43 @@ if(!isset($_SESSION["admin"]))
 
 ?>   
   <div class="row" align="center">
-    <div class="col s12 m3 l3">
-      <br/>
+    <div class="col s12 m6 l6">
+      <br/><br/>
+      <div class="row" id="variablesReport">
+
+        <table class="striped centered" style="border: 1px solid black;">
+          <thead style="border-bottom: 1px solid black;font-size: 16px;">
+            <tr>
+                <th>MONTH</th>
+                <th>BUS FARE</th>
+                <th>MESS FARE</th>
+                <th>PF</th>
+                <th>ESI</th>
+            </tr>
+          </thead>
+          <tbody>
+<?php
+
+    $queryBank = "select * from variables";
+    $exeBank = mysqli_query($conn,$queryBank);
+    while($employeeBank = mysqli_fetch_assoc($exeBank))
+    { 
+
+?>           
+            <tr>
+              <td><?php echo $employeeBank['month']; ?></td>
+              <td><?php echo $employeeBank['bus_fare']; ?></td>
+              <td><?php echo $employeeBank['mess_fare']; ?></td>
+              <td><?php echo $employeeBank['PF']; ?></td>
+              <td><?php echo $employeeBank['ESI']; ?></td>
+            </tr> 
+<?php
+    }
+?>     
+          </tbody>
+        </table> 
+
+      </div>
     </div>
     <div class="col s12 m6 l6">
       <form method="post" novalidate>
@@ -129,11 +170,8 @@ if(!isset($_SESSION["admin"]))
           <button type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>
         </div> 
       </form>                           
-    </div>
-    <div class="col s12 m3 l3">
-      <br/>
-    </div>        
-  </div>   
+    </div>       
+  </div>  
 </body>
 </html>
 <?php
