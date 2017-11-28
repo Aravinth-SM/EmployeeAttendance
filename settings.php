@@ -199,11 +199,18 @@ if(isset($_POST["submit"]))
   $PF = $_POST["PF"];
   $ESI = $_POST["ESI"];
 
+if( ($busFare=="")||($messFare=="")||($PF=="")||($ESI=="") )
+{
+  echo '<script>Materialize.toast("Enter all details",6000,"rounded");</script>';
+}
+else
+{
+
 $execute = mysqli_query($conn,"update variables set bus_fare='".$busFare."',mess_fare='".$messFare."',PF='".$PF."',ESI='".$ESI."' where month='".$month."' ");
 
 
    echo "<script>window.location.href='settings.php';</script>";  
-
+}
 }
 
   mysqli_close($conn);

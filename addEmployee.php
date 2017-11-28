@@ -39,6 +39,7 @@ if(!isset($_SESSION["admin"]))
   </style>
 
   <script type="text/javascript">
+
     $(document).ready(function(){    
       $('select').material_select();
       $(".button-collapse").sideNav();
@@ -352,15 +353,21 @@ if(isset($_POST["submit"]))
   //echo $gender."<br/>".$plant."<br/>".$busFare."<br/>".$messFare."<br/>".$pf."<br/>".$esi."<br/>".$accNo."<br/>".$branchName."<br/>".$branchCode;
 
   //echo $name."<br/>".$empId."<br/>".$phone."<br/>".$address."<br/>".$dob."<br/>".$doj."<br/>".$workType."<br/>".$salary;
-
+  if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($dob=="")||($doj=="")||($address=="")||($gender=="")||($plant=="") )
+  {
+      echo '<script>Materialize.toast("Enter all details",6000,"rounded");</script>';
+      //header("location:addEmployee.php");    
+  }
+  else
+  {
   include("DB/db.php");
 
    $queryCheck = "select * from employee where emp_id='".$empId."'";
    $exeCheck = mysqli_query($conn,$queryCheck);
    
    if(mysqli_num_rows($exeCheck) > 0) {
-      echo "<script>alert('Employee ID already exists');</script>";
-      header("location:addEmployee.php");
+      echo '<script>Materialize.toast("Employee ID already exists",6000,"rounded");</script>';
+      //header("location:addEmployee.php");
    }
    else { 
 
@@ -368,18 +375,19 @@ if(isset($_POST["submit"]))
 
      if($execute == 1)
      {
-      echo "<script>alert('success');</script>";
+      //echo "<script>alert('success');</script>";
         header("location:employeeRecords.php");
      }
 
      else
      {
-      echo "<script>alert('failure');</script>";
-        header("location:addEmployee.php");
+      echo '<script>Materialize.toast("Cannot add employee",6000,"rounded");</script>';
+      //header("location:addEmployee.php");
      }
    }
 
   mysqli_close($conn);
+}
 }
 
 ?>

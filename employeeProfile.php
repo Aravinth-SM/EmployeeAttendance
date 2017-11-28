@@ -774,12 +774,21 @@ if(isset($_POST["submit"]))
 
   //echo $gender."<br/>".$plant."<br/>".$busFare."<br/>".$messFare."<br/>".$pf."<br/>".$esi."<br/>".$accNo."<br/>".$branchName."<br/>".$branchCode."<br/>";
 
+if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($dob=="")||($doj=="")||($address=="")||($gender=="")||($plant=="") )
+  {
+      echo '<script>Materialize.toast("Enter all details",6000,"rounded");</script>';
+      //header("location:addEmployee.php");    
+  }
+  else
+  {  
+
   $execute = mysqli_query($conn,"update employee set name='".$name."',type='".$workType."',salary='".$salary."',phone='".$phone."',DOB='".$dob."',DOJ='".$doj."',address='".$address."',PF='".$pf."',ESI='".$esi."',gender='".$gender."',busFare='".$busFare."',messFare='".$messFare."',plant='".$plant."',bankAccountNumber='".$accNo."',branchCode='".$branchCode."',branchName='".$branchName."' where emp_id='".$empId."' ");
 
 
    echo "<script>window.location.href='employeeRecords.php';</script>";
+ }
 
-  mysqli_close($conn);
+  
 }
-
+mysqli_close($conn);
 ?>

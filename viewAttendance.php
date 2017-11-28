@@ -119,12 +119,8 @@ if(!isset($_SESSION["admin"]))
       document.getElementById("emp_id_time").value = id;
       document.getElementById("div_id_time").value = divId;
       document.getElementById("in_time").value = inTime;
-      if( outTime != "" ) {
-        document.getElementById("out_time").value = outTime;
-      }
-      if( otTime != "" ) {
-        document.getElementById("ot_time").value = otTime;
-      }
+      document.getElementById("out_time").value = outTime;
+      document.getElementById("ot_time").value = otTime;
       document.getElementById('id01').style.display ='block';
     }
 

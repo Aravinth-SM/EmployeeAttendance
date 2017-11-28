@@ -152,9 +152,16 @@ if(isset($_POST["submit"]))
   $userName = $_POST["userName"];
   $oldPswd = $_POST["oldPswd"];
 
+if($userName=="")
+{
+  echo '<script>Materialize.toast("Enter Username",6000,"rounded");</script>';
+}
+else
+{
   if($oldPswd != $oldPassword)
   {
-    echo "<script>alert('Wrong old password');window.location.href='profile.php';</script>";
+    //echo "<script>alert('Wrong old password');window.location.href='profile.php';</script>";
+    echo '<script>Materialize.toast("Wrong old password",6000,"rounded");</script>';
   }
 else {
   $newPswd = $_POST["newPswd"];
@@ -162,7 +169,8 @@ else {
 
   if($newPswd != $re_newPswd)
   {
-    echo "<script>alert('New password and Re-enter new password is not same');window.location.href='profile.php';</script>";
+    //echo "<script>alert('New password and Re-enter new password is not same');window.location.href='profile.php';</script>";
+    echo '<script>Materialize.toast("New password and Re-enter new password is not same",6000,"rounded");</script>';
   }  
 else {
 $execute = mysqli_query($conn,"update admin set username='".$userName."',password='".$newPswd."' where id='".$_SESSION["admin_id"]."' ");
@@ -170,6 +178,7 @@ $execute = mysqli_query($conn,"update admin set username='".$userName."',passwor
 
    echo "<script>window.location.href='logout.php';</script>";  
  }
+}
 }
 }
 
