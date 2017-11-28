@@ -197,9 +197,9 @@ $bankAccountNumber = $employee['bankAccountNumber'];
     {
       $busAmt = $variable['bus_fare'];
       $messAmt = $variable['mess_fare'];
-      //$PF = $variable['PF'];
-      //$ESI = $variable['ESI'];
-    }
+      $monthPF = $variable['PF'];
+      $monthESI = $variable['ESI'];
+    }  
 
 if($isBusFare)
   $busFare = $busAmt;
@@ -210,6 +210,16 @@ if($isMessFare)
   $messFare = $messAmt;
 else
   $messFare = 0;
+
+if($pf)
+  $empPF = round ( $salary*($monthPF/100.0) , 2);
+else
+  $empPF = 0;
+
+if($esi)
+  $empESI = round ( $salary*($monthESI/100.0) , 2);
+else
+  $empESI = 0;
 
 $total = $salary - $pf - $esi - $busFare - $messFare;
 
@@ -230,11 +240,11 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
                 </tr>
                 <tr>
                   <td>PF</td>
-                  <td><?php echo $pf; ?>.00</td>
+                  <td><?php echo $empPF; ?></td>
                 </tr>
                 <tr>
                   <td>ESI</td>
-                  <td><?php echo $esi; ?>.00</td>
+                  <td><?php echo $empESI; ?></td>
                 </tr>
                 <tr>
                   <td>BUS FARE</td>
@@ -246,7 +256,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
                 </tr>                
                 <tr style="border-top: 1px solid black;font-size: 15px;">
                   <td><b>TOTAL</b></td>
-                  <td><b><?php echo $total; ?>.00</b></td>
+                  <td><b><?php echo $total; ?></b></td>
                 </tr>                                
               </tbody>
             </table>
@@ -577,19 +587,43 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
               <label for="mess">Mess fare</label>
             </p>
           </div>
-        </div>        
+        </div>     
         <div class="row">
-          <div class="input-field col s12">
-            <input id="pf" name="pf" type="text" class="validate" required="required" value="<?php echo $pf; ?>">
-            <label for="pf">PF</label>
+          <div class="input-field col s6">      
+            <p>
+              <input name="pf" type="checkbox" onchange="toggleCheck(this.id);" class="filled-in" id="pf" 
+               <?php 
+                  if($pf)
+                     echo "checked";
+               ?>
+               value="<?php 
+                    if($pf)
+                      echo "on";
+                    else
+                      echo "off";
+                 ?>"               
+              />
+              <label for="pf">PF</label>
+            </p>
           </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="esi" name="esi" type="text" class="validate" required="required" value="<?php echo $esi; ?>">
-            <label for="esi">ESI</label>
+          <div class="input-field col s6">         
+            <p>
+              <input name="esi" type="checkbox" onchange="toggleCheck(this.id);" class="filled-in" id="esi" 
+               <?php 
+                  if($esi)
+                     echo "checked";
+               ?>
+               value="<?php 
+                    if($esi)
+                      echo "on";
+                    else
+                      echo "off";
+                 ?>"               
+              />
+              <label for="esi">ESI</label>
+            </p>
           </div>
-        </div>
+        </div>           
         <div class="row">
           <div class="input-field col s12">
             <input name="isBank" type="checkbox" class="filled-in" id="bank" onchange="showBankDiv();" 
@@ -715,6 +749,20 @@ if(isset($_POST["submit"]))
   else {
     $messFare = 0;
   }   
+
+  if($pf == "on") {
+    $pf = 1;
+  } 
+  else {
+    $pf = 0;
+  }
+
+  if($esi == "on") {
+    $esi = 1;
+  } 
+  else {
+    $esi = 0;
+  }  
 
   if($isBank == "on") {
     $accNo      = $_POST["accNo"];

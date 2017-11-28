@@ -44,8 +44,8 @@
 
 		  	$bus_fare = $employee['busFare'];
 		  	$mess_fare = $employee['messFare'];
-		  	$PF = $employee['PF'];
-		  	$ESI = $employee['ESI'];
+		  	$pf = $employee['PF'];
+		  	$esi = $employee['ESI'];
 		  	$type = $employee['type']; 
 		  	$busAmt = 0;
 		  	$messAmt = 0;
@@ -58,8 +58,8 @@
 		{
 			$busAmt = $variable['bus_fare'];
 			$messAmt = $variable['mess_fare'];
-			//$PF = $variable['PF'];
-			//$ESI = $variable['ESI'];
+			$monthPF = $variable['PF'];
+			$monthESI = $variable['ESI'];
 		}		  	
 
 		  	if($bus_fare)
@@ -67,6 +67,16 @@
 
 		  	if($mess_fare) 
 		  		$mess_fare = $messAmt;
+
+			if($pf)
+			  $PF = round ( $employee['salary']*($monthPF/100.0) , 2);
+			else
+			  $PF = 0;
+
+			if($esi)
+			  $ESI = round ( $employee['salary']*($monthESI/100.0) , 2);
+			else
+			  $ESI = 0;		  	
 
 		  	if($type == "monthly")
 		  	{

@@ -238,21 +238,23 @@ if(!isset($_SESSION["admin"]))
               <label for="mess">Mess fare</label>
             </p>
           </div>
-        </div>        
+        </div>
         <div class="row">
-          <div class="input-field col s12">
-            <input id="pf" name="pf" type="text" class="validate" required="required">
-            <label for="pf">PF</label>
+          <div class="input-field col s6">      
+            <p>
+              <input name="pf" type="checkbox" value="off" onchange="toggleCheck(this.id);" class="filled-in" id="pf" />
+              <label for="pf">PF</label>
+            </p>
+          </div>
+          <div class="input-field col s6">         
+            <p>
+              <input name="esi" type="checkbox" value="off" onchange="toggleCheck(this.id);" class="filled-in" id="esi" />
+              <label for="esi">ESI</label>
+            </p>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
-            <input id="esi" name="esi" type="text" class="validate" required="required">
-            <label for="esi">ESI</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s16">
             <input name="isBank" type="checkbox" class="filled-in" value="off" id="bank" onchange="showBankDiv();" />
             <label for="bank">Bank Account</label>
           </div> 
@@ -325,7 +327,21 @@ if(isset($_POST["submit"]))
   } 
   else {
     $messFare = 0;
-  }   
+  }
+
+  if($pf == "on") {
+    $pf = 1;
+  } 
+  else {
+    $pf = 0;
+  }
+
+  if($esi == "on") {
+    $esi = 1;
+  } 
+  else {
+    $esi = 0;
+  }       
 
   if($isBank == "on") {
     $accNo      = $_POST["accNo"];
