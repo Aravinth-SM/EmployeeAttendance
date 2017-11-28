@@ -81,7 +81,25 @@ if(!isset($_SESSION["admin"]))
             xmlhttp.open("GET", "fetchTableReportBankForMonth_Year.php?month="+month+"&year="+year, true);
             xmlhttp.send();
           }        
-      }      
+      }
+
+      function fetchTableReportBankBrief() {
+        var month = document.getElementById('month3').value;
+        var year = document.getElementById('year3').value;
+        if ( (month == "") || (year == "") ) { 
+          return;
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var val = this.responseText;
+                    document.getElementById('tableReportBankBrief').innerHTML=val;
+                }
+            }
+            xmlhttp.open("GET", "fetchTableReportBankBriefForMonth_Year.php?month="+month+"&year="+year, true);
+            xmlhttp.send();
+          }        
+      }            
 
   </script>
 
@@ -410,7 +428,7 @@ if(!isset($_SESSION["admin"]))
         </div>      
       </li>
       <li>
-        <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employees report with Bank Account</b></div>
+        <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employees report with Bank Account [Detailed report]</b></div>
         <div class="collapsible-body"> 
           <div class="row">
             <div class="input-field col s12 m6 l6">
@@ -445,6 +463,42 @@ if(!isset($_SESSION["admin"]))
           </div>
         </div>         
       </li>
+      <li>
+        <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employees report with Bank Account [Brief report]</b></div>
+        <div class="collapsible-body"> 
+          <div class="row">
+            <div class="input-field col s12 m6 l6">
+              <select name="month3" id="month3" onchange="fetchTableReportBankBrief();">
+                <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
+                <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
+                <option value="3" <?php if($month==3){echo "selected";}else{echo "";} ?> >03-March</option>
+                <option value="4" <?php if($month==4){echo "selected";}else{echo "";} ?> >04-April</option>
+                <option value="5" <?php if($month==5){echo "selected";}else{echo "";} ?> >05-May</option>
+                <option value="6" <?php if($month==6){echo "selected";}else{echo "";} ?> >06-June</option>
+                <option value="7" <?php if($month==7){echo "selected";}else{echo "";} ?> >07-July</option> 
+                <option value="8" <?php if($month==8){echo "selected";}else{echo "";} ?> >08-August</option>
+                <option value="9" <?php if($month==9){echo "selected";}else{echo "";} ?> >09-September</option>
+                <option value="10" <?php if($month==10){echo "selected";}else{echo "";} ?> >10-October</option>
+                <option value="11" <?php if($month==11){echo "selected";}else{echo "";} ?> >11-November</option>
+                <option value="12" <?php if($month==12){echo "selected";}else{echo "";} ?> >12-December</option>
+              </select>
+              <label>Month</label>
+            </div> 
+            <div class="input-field col s12 m6 l6">
+              <select name="year3" id="year3" onchange="fetchTableReportBankBrief();">
+                <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
+                <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
+              </select>
+              <label>Year</label>
+            </div>           
+          </div> 
+<?php
+  echo "<script>fetchTableReportBankBrief();</script>";
+?>          
+          <div class="row" id="tableReportBankBrief">
+          </div>
+        </div>         
+      </li>      
     </ul>
   </div>
 
