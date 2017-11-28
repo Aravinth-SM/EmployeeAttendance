@@ -43,6 +43,7 @@ if(!isset($_SESSION["admin"]))
        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.collapsible').collapsible();
         $('select').material_select();
+        $(".dropdown-button").dropdown({ hover: true });
         $(".button-collapse").sideNav();
         $('.modal').modal();
         $('.datepicker').pickadate({     
@@ -122,6 +123,20 @@ if(!isset($_SESSION["admin"]))
   </script>   
 </head>
 <body>
+  <!-- Dropdown Structure Open -->
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="profile.php">Profile</a></li>
+    <li class="divider"></li>
+    <li><a href="settings.php">Variables</a></li>
+  </ul>  
+  <!-- Dropdown Structure Close -->
+  <!-- Dropdown Structure Open -->
+  <ul id="dropdown2" class="dropdown-content">
+    <li><a href="profile.php">Profile</a></li>
+    <li class="divider"></li>
+    <li><a href="settings.php">Variables</a></li>
+  </ul>  
+  <!-- Dropdown Structure Close -->  
   <nav>
     <div class="nav-wrapper blue-grey darken-3">
       &nbsp;&nbsp;&nbsp;
@@ -131,7 +146,7 @@ if(!isset($_SESSION["admin"]))
         <li><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a href="settings.php">Settings</a></li>
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>
       </ul>
@@ -139,7 +154,7 @@ if(!isset($_SESSION["admin"]))
         <li><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a href="settings.php">Settings</a></li>
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>        
       </ul>
@@ -654,7 +669,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
         </div>      
 <br/>
       <div class="row">
-       <button class="waves-effect waves-light btn" id="submit" name="submit">EDIT</button> &nbsp;&nbsp;&nbsp;
+       <button class="waves-effect waves-light btn" id="submit" name="submit">UPDATE</button> &nbsp;&nbsp;&nbsp;
        <button type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>
       </div>  
       </form>    

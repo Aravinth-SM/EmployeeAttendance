@@ -1,5 +1,3 @@
-validation
-
 code alignment & comments
 mask
 html to pdf & download

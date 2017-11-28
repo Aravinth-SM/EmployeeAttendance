@@ -117,6 +117,13 @@ if(isset($_POST["submit"]))
    if(mysqli_num_rows($exe) > 0)
    {
       $_SESSION["admin"] = 1;
+
+    while($variable = mysqli_fetch_assoc($exe))
+    {
+      $adminId = $variable['id'];
+    }
+
+      $_SESSION["admin_id"] = $adminId;
       echo "<script>calculateSalary();</script>";
       //header("location:viewAttendance.php");    
    }

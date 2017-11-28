@@ -37,6 +37,7 @@ if(!isset($_SESSION["admin"]))
     $(document).ready(function(){   
       $('select').material_select();
       $(".button-collapse").sideNav(); 
+      $(".dropdown-button").dropdown({ hover: true });
     });
 
 
@@ -98,6 +99,20 @@ if(!isset($_SESSION["admin"]))
   </script>
 </head>
 <body onload="fetchEmployees('all');">
+  <!-- Dropdown Structure Open -->
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="profile.php">Profile</a></li>
+    <li class="divider"></li>
+    <li><a href="settings.php">Variables</a></li>
+  </ul>  
+  <!-- Dropdown Structure Close -->
+  <!-- Dropdown Structure Open -->
+  <ul id="dropdown2" class="dropdown-content">
+    <li><a href="profile.php">Profile</a></li>
+    <li class="divider"></li>
+    <li><a href="settings.php">Variables</a></li>
+  </ul>  
+  <!-- Dropdown Structure Close -->  
   <nav>
     <div class="nav-wrapper blue-grey darken-3">
       &nbsp;&nbsp;&nbsp;
@@ -107,7 +122,7 @@ if(!isset($_SESSION["admin"]))
         <li><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li class="active"><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a href="settings.php">Settings</a></li>
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>
       </ul>
@@ -115,7 +130,7 @@ if(!isset($_SESSION["admin"]))
         <li><a href="viewAttendance.php">Home</a></li>
         <li><a href="addEmployee.php">Add Employee</a></li>
         <li class="active"><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a href="settings.php">Settings</a></li>
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="reports.php">Reports</a></li>
         <li><a href="logout.php">Log out</a></li>        
       </ul>      
