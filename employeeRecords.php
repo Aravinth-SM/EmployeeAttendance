@@ -59,6 +59,20 @@ if(!isset($_SESSION["admin"]))
       }
     }
 
+    function showLoader() {
+      document.getElementById('preLoader').style.display ='';
+      document.getElementById('employeeRows').style.display ='none';
+    }
+
+    function dummy() {
+      document.getElementById('employeeRows').style.display ='';
+      document.getElementById('preLoader').style.display ='none';      
+    }
+
+    function hideLoader() {
+      myVar = setTimeout(dummy, 1000);
+    }    
+
     function loadDatas(val) {
       if (val == "") { 
         return;
@@ -83,12 +97,14 @@ if(!isset($_SESSION["admin"]))
       if (val == "") { 
         return;
       } else {
+          showLoader();
           loadDatas(val);
           var xmlhttp = new XMLHttpRequest();
           xmlhttp.onreadystatechange = function() {
               if (this.readyState == 4 && this.status == 200) {
                   var val = this.responseText;
-                  document.getElementById('employeeRows').innerHTML=val;                       
+                  document.getElementById('employeeRows').innerHTML=val;
+                  hideLoader();                       
               }
           }
           xmlhttp.open("GET", "fetchEmployeesForPlant.php?plant="+val, true);
@@ -206,7 +222,36 @@ if(!isset($_SESSION["admin"]))
       </div>      
     </div>         
   </div> 
+<style type="text/css">
+  #preLoader {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #42A5F5;
+    border-bottom: 16px solid #42A5F5;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
 
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }  
+</style>
+  <div id="preLoader" style="display: none;"></div>
   <div class="row"  id="employeeRows"></div>           
 </body>
 </html>

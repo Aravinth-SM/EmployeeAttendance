@@ -133,6 +133,20 @@ if(!isset($_SESSION["admin"]))
       document.getElementById('id01').style.display ='none';
     }    
 
+    function showLoader() {
+      document.getElementById('preLoader').style.display ='';
+      document.getElementById('employeeRows').style.display ='none';
+    }
+
+    function dummy() {
+      document.getElementById('employeeRows').style.display ='';
+      document.getElementById('preLoader').style.display ='none';      
+    }
+
+    function hideLoader() {
+      myVar = setTimeout(dummy, 1000);
+    }    
+
       function markHoliday(param,length) {
         var date = document.getElementById("date").value;
         var data = param.getAttribute("data");
@@ -272,6 +286,7 @@ if(!isset($_SESSION["admin"]))
         if ( (val == "") || (date == "") ) { 
           return;
         } else {
+            showLoader();
             loadDatas(val,date);
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
@@ -279,7 +294,7 @@ if(!isset($_SESSION["admin"]))
                     var val = this.responseText;
                     if(val[0]!="-") {
                       document.getElementById('employeeRows').innerHTML=val;
-                      document.getElementById('employeeRows').style.display="block";
+                      //document.getElementById('employeeRows').style.display="block";
                       document.getElementById('holiday_working_btn').innerHTML = "MARK AS HOLIDAY";
                       document.getElementById('holiday_working_btn').setAttribute("data","holiday");
                       document.getElementById('holiday_working_btn').style.border = "solid 2px #ff6f00";
@@ -294,6 +309,7 @@ if(!isset($_SESSION["admin"]))
                       document.getElementById('holiday_working_btn').classList.remove('amber-text');
                       document.getElementById('holiday_working_btn').classList.add('blue-grey-text');                      
                     }
+                    hideLoader();
                 }
             }
             xmlhttp.open("GET", "fetchEmployeesForPlant_Date.php?plant="+val+"&date="+date, true);
@@ -442,6 +458,36 @@ if(!isset($_SESSION["admin"]))
 <?php 
   if($isHoliday=="false") {
 ?>
+<style type="text/css">
+  #preLoader {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #42A5F5;
+    border-bottom: 16px solid #42A5F5;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }  
+</style>
+  <div id="preLoader" style="display: none;"></div>
   <div class="row" id="employeeRows">
 <?php
   }

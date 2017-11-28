@@ -46,6 +46,94 @@ if(!isset($_SESSION["admin"]))
       });
     });
 
+    function showLoader() {
+      if(document.getElementById('preLoader')) {
+        document.getElementById('preLoader').style.display ='';
+      }
+      if(document.getElementById('tableReportBrief')) {
+        document.getElementById('tableReportBrief').style.display ='none';
+      }
+    }
+
+    function dummy() {
+      if(document.getElementById('tableReportBrief')) {
+        document.getElementById('tableReportBrief').style.display ='';
+      }
+      if(document.getElementById('preLoader')) {
+        document.getElementById('preLoader').style.display ='none'; 
+      }     
+    }
+
+    function hideLoader() {
+      myVar = setTimeout(dummy, 1000);
+    }     
+
+    function showLoader2() {
+      if(document.getElementById('preLoader2')) {
+        document.getElementById('preLoader2').style.display ='';
+      }
+      if(document.getElementById('tableReport')) {
+        document.getElementById('tableReport').style.display ='none';
+      }
+    }
+
+    function dummy2() {
+      if(document.getElementById('tableReport')) {
+        document.getElementById('tableReport').style.display ='';
+      }
+      if(document.getElementById('preLoader2')) {
+        document.getElementById('preLoader2').style.display ='none'; 
+      }     
+    }
+
+    function hideLoader2() {
+      myVar = setTimeout(dummy2, 1000);
+    } 
+
+    function showLoader3() {
+      if(document.getElementById('preLoader3')) {
+        document.getElementById('preLoader3').style.display ='';
+      }
+      if(document.getElementById('tableReportBankBrief')) {
+        document.getElementById('tableReportBankBrief').style.display ='none';
+      }
+    }
+
+    function dummy3() {
+      if(document.getElementById('tableReportBankBrief')) {
+        document.getElementById('tableReportBankBrief').style.display ='';
+      }
+      if(document.getElementById('preLoader3')) {
+        document.getElementById('preLoader3').style.display ='none'; 
+      }     
+    }
+
+    function hideLoader3() {
+      myVar = setTimeout(dummy3, 1000);
+    }   
+
+    function showLoader4() {
+      if(document.getElementById('preLoader4')) {
+        document.getElementById('preLoader4').style.display ='';
+      }
+      if(document.getElementById('tableReportBank')) {
+        document.getElementById('tableReportBank').style.display ='none';
+      }
+    }
+
+    function dummy4() {
+      if(document.getElementById('tableReportBank')) {
+        document.getElementById('tableReportBank').style.display ='';
+      }
+      if(document.getElementById('preLoader4')) {
+        document.getElementById('preLoader4').style.display ='none'; 
+      }     
+    }
+
+    function hideLoader4() {
+      myVar = setTimeout(dummy4, 1000);
+    }         
+
       function fetchTableReport() {
         var month = document.getElementById('month').value;
         var year = document.getElementById('year').value;
@@ -53,11 +141,13 @@ if(!isset($_SESSION["admin"]))
         if ( (month == "") || (year == "") || (plant == "") ) { 
           return;
         } else {
+            showLoader2();
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var val = this.responseText;
                     document.getElementById('tableReport').innerHTML=val;
+                    hideLoader2();
                 }
             }
             xmlhttp.open("GET", "fetchTableReportForMonth_Year.php?month="+month+"&year="+year+"&plant="+plant, true);
@@ -72,11 +162,13 @@ if(!isset($_SESSION["admin"]))
         if ( (month == "") || (year == "") || (plant == "") ) { 
           return;
         } else {
+            showLoader();
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var val = this.responseText;
                     document.getElementById('tableReportBrief').innerHTML=val;
+                    hideLoader();
                 }
             }
             xmlhttp.open("GET", "fetchTableReportBriefForMonth_Year.php?month="+month+"&year="+year+"&plant="+plant, true);
@@ -90,11 +182,13 @@ if(!isset($_SESSION["admin"]))
         if ( (month == "") || (year == "") ) { 
           return;
         } else {
+            showLoader4();
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var val = this.responseText;
                     document.getElementById('tableReportBank').innerHTML=val;
+                    hideLoader4();
                 }
             }
             xmlhttp.open("GET", "fetchTableReportBankForMonth_Year.php?month="+month+"&year="+year, true);
@@ -108,11 +202,13 @@ if(!isset($_SESSION["admin"]))
         if ( (month == "") || (year == "") ) { 
           return;
         } else {
+            showLoader3();
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var val = this.responseText;
                     document.getElementById('tableReportBankBrief').innerHTML=val;
+                    hideLoader3();
                 }
             }
             xmlhttp.open("GET", "fetchTableReportBankBriefForMonth_Year.php?month="+month+"&year="+year, true);
@@ -442,6 +538,34 @@ if(!isset($_SESSION["admin"]))
 <?php
   echo "<script>fetchTableReportBrief();</script>";
 ?>          
+<style type="text/css">
+  .loader {
+
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #42A5F5;
+    border-bottom: 16px solid #42A5F5;
+    width: 70px;
+    height: 70px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }  
+</style>
+  <div id="preLoader" class="loader" style="display: none;"></div>
           <div class="row" id="tableReportBrief">
           </div>        
         </div>      
@@ -494,6 +618,7 @@ if(!isset($_SESSION["admin"]))
 <?php
   echo "<script>fetchTableReport();</script>";
 ?>          
+        <div id="preLoader2" class="loader" style="display: none;"></div>
           <div class="row" id="tableReport">
           </div>        
         </div>      
@@ -530,6 +655,7 @@ if(!isset($_SESSION["admin"]))
 <?php
   echo "<script>fetchTableReportBankBrief();</script>";
 ?>          
+          <div id="preLoader3" class="loader" style="display: none;"></div>
           <div class="row" id="tableReportBankBrief">
           </div>
         </div>         
@@ -566,6 +692,7 @@ if(!isset($_SESSION["admin"]))
 <?php
   echo "<script>fetchTableReportBank();</script>";
 ?>          
+          <div id="preLoader4" class="loader" style="display: none;"></div>
           <div class="row" id="tableReportBank">
           </div>
         </div>         

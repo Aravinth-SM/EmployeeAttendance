@@ -57,17 +57,41 @@ if(!isset($_SESSION["admin"]))
 
       });
 
+    function showLoader() {
+      if(document.getElementById('preLoader')) {
+        document.getElementById('preLoader').style.display ='';
+      }
+      if(document.getElementById('tableReportInOut')) {
+        document.getElementById('tableReportInOut').style.display ='none';
+      }
+    }
+
+    function dummy() {
+      if(document.getElementById('tableReportInOut')) {
+        document.getElementById('tableReportInOut').style.display ='';
+      }
+      if(document.getElementById('preLoader')) {
+        document.getElementById('preLoader').style.display ='none'; 
+      }     
+    }
+
+    function hideLoader() {
+      myVar = setTimeout(dummy, 1000);
+    }       
+
       function fetchTableReportInOut(empId) {
         var month = document.getElementById('month').value;
         var year = document.getElementById('year').value;
         if ( (month == "") || (year == "") ) { 
           return;
         } else {
+            showLoader();
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var val = this.responseText;
                     document.getElementById('tableReportInOut').innerHTML=val;
+                    hideLoader();
                 }
             }
             xmlhttp.open("GET", "fetchTableReportInOutForMonth_Year.php?month="+month+"&year="+year+"&empId="+empId, true);
@@ -312,6 +336,36 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
 <?php
   echo "<script>fetchTableReportInOut('".$employee['emp_id']."');</script>";
 ?>          
+<style type="text/css">
+  #preLoader {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #42A5F5;
+    border-bottom: 16px solid #42A5F5;
+    width: 70px;
+    height: 70px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }  
+</style>
+  <div id="preLoader" style="display: none;"></div>
           <div class="row" id="tableReportInOut">
           </div>        
         </div>
