@@ -5,7 +5,7 @@
 <link rel="icon" href="images/favicon.png" type="image/png" sizes="20x20">
 <title>Home | Employee Attendance</title>
 <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
 <link rel="stylesheet" href="css/loginStyle.css" />
 
 <?php
@@ -75,11 +75,19 @@ html, body {
 
 <div class="container">
 
-<label class="helloFont1" style="font-size:90px;color:#FFF;">Flubbers</label><br /><br />
+<label class="helloFont1" style="font-size:90px;color:#FFF;">Flubbers</label>
 
     <div class="content">
 
 <form method="post">
+<?php
+if(isset($_SESSION["msg"]))
+{
+  //echo '<script>Materialize.toast("'.$_SESSION["msg"].'",8000);</script>';
+  echo "<label style='color:red;'>".$_SESSION["msg"]."</label>";
+  unset($_SESSION["msg"]);
+}
+?>
   <label>
     <input type="text" id="username" name="username" required autocomplete="off"/>
     <div class="label-text">User name</div>
@@ -95,13 +103,6 @@ html, body {
   </div>
 </div>
 <?php
-
-// if(isset($_SESSION["msg"]))
-// {
-//   echo '<script>Materialize.toast("'.$_SESSION["msg"].'",8000);</script>';
-//   unset($_SESSION["msg"]);
-// }
-
 
 if(isset($_POST["submit"]))
 {
