@@ -26,13 +26,6 @@
         <th>ABSENT</th>
         <th>HOLIDAY</th>
         <th>OT</th>
-        <th>PER DAY</th>
-        <th>PER HOUR</th>
-        <th>BUS FARE</th>
-        <th>MESS FARE</th>
-        <th>PF</th>
-        <th>ESI</th>
-        <th>SALARY PAID</th>
     </tr>
   </thead>
   <tbody>
@@ -58,14 +51,7 @@
       <td><?php echo $employeeSal["present"]; ?></td>
       <td><?php echo $employeeSal["absent"]; ?></td>
       <td><?php echo $employeeSal["holiday"]; ?></td>
-      <td><?php echo $employeeSal["OT"]; ?></td>
-      <td><?php echo $employeeSal["perDay"]; ?></td>
-      <td><?php echo $employeeSal["perHour"]; ?></td>
-      <td><?php echo $employeeSal["bus_fare"]; ?></td>
-      <td><?php echo $employeeSal["mess_fare"]; ?></td>
-      <td><?php echo $employeeSal["PF"]; ?></td>
-      <td><?php echo $employeeSal["ESI"]; ?></td>
-      <td><?php echo $employeeSal["salary"]; ?></td>                        
+      <td><?php echo $employeeSal["OT"]; ?></td>                       
     </tr> 
 <?php
       }
