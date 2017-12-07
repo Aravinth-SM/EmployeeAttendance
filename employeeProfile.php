@@ -79,6 +79,42 @@ if(!isset($_SESSION["admin"]))
       myVar = setTimeout(dummy, 1000);
     }       
 
+    function printMonthlySalaryPaidReport(empId,name) {
+      if ( (empId == "") || (name == "") ) { 
+        return;
+      } else {
+        window.open("printMonthlySalaryPaidReport.php?empId="+empId+"&name="+name,"_blank");
+      }
+    }
+
+    function exportMonthlySalaryPaidReport(empId,name) {
+      if ( (empId == "") || (name == "") ) { 
+        return;
+      } else {
+        window.open("exportMonthlySalaryPaidReport.php?empId="+empId+"&name="+name,"_blank");
+      }
+    }    
+
+    function exportTableReportInOut(empId,name) {
+      var month = document.getElementById('month').value;
+      var year = document.getElementById('year').value;
+      if ( (month == "") || (year == "") ) { 
+        return;
+      } else {
+        window.open("exportTableReportInOutForMonth_Year.php?month="+month+"&year="+year+"&empId="+empId+"&name="+name,"_blank");
+      }
+    }    
+
+    function printTableReportInOut(empId,name) {
+      var month = document.getElementById('month').value;
+      var year = document.getElementById('year').value;
+      if ( (month == "") || (year == "") ) { 
+        return;
+      } else {
+        window.open("printTableReportInOutForMonth_Year.php?month="+month+"&year="+year+"&empId="+empId+"&name="+name,"_blank");
+      }
+    }
+
       function fetchTableReportInOut(empId) {
         var month = document.getElementById('month').value;
         var year = document.getElementById('year').value;
@@ -189,7 +225,7 @@ if(!isset($_SESSION["admin"]))
    $id = intval($_GET['id']);
    $query = "select * from employee where id=".$id;
    $exe = mysqli_query($conn,$query);
-   $employee = mysqli_fetch_assoc($exe)
+   $employee = mysqli_fetch_assoc($exe);
 ?>   
   <div class="row" align="center">
     <div class="col s12 m6 l6">
@@ -308,7 +344,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
         <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employee In / Out report for particular month</b></div>
         <div class="collapsible-body">
           <div class="row">
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="month" id="month" onchange="fetchTableReportInOut('<?php echo $employee['emp_id']; ?>');">
                 <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
                 <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
@@ -325,7 +361,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
               </select>
               <label>Month</label>
             </div> 
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="year" id="year" onchange="fetchTableReportInOut('<?php echo $employee['emp_id']; ?>');">
                 <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
                 <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
@@ -333,7 +369,10 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
               <label>Year</label>
             </div>
             <div class="input-field col s12 m2 l2">
-              <img src="images/pdf.png" alt="PDF" onclick="#" />
+              <img src="images/xls.png" alt="PDF" onclick="exportTableReportInOut('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
+            </div>            
+            <div class="input-field col s12 m2 l2">
+              <img src="images/pdf.png" alt="PDF" onclick="printTableReportInOut('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
             </div>                          
           </div> 
 <?php
@@ -377,11 +416,14 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
         <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employee's monthly report</b></div>
         <div class="collapsible-body">
           <div class="row" id="tableReport">
-            <div class="input-field col s12 m10 l10">
+            <div class="input-field col s12 m8 l8">
               <br/>
-            </div>            
+            </div>  
             <div class="input-field col s12 m2 l2">
-              <img src="images/pdf.png" alt="PDF" onclick="#" />
+              <img src="images/xls.png" alt="XLS" onclick="exportMonthlySalaryPaidReport('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
+            </div>                       
+            <div class="input-field col s12 m2 l2">
+              <img src="images/pdf.png" alt="PDF" onclick="printMonthlySalaryPaidReport('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
             </div>             
             <table class="highlight centered">
               <thead style="font-size: 16px;">

@@ -46,7 +46,7 @@
 <body onload="printTable();">
   <div id="printTable" align="center">
 
-    <img src="images/logo.png" /><br/><br/>
+    <img src="images/logo.PNG" alt="LOGO" /><br/><br/>
     <div class="row" align="center">
       <div class="col s12 m1 l1">
         <br/>

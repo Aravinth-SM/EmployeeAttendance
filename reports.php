@@ -134,6 +134,17 @@ if(!isset($_SESSION["admin"]))
       myVar = setTimeout(dummy4, 1000);
     }         
 
+      function exportTableReport() {
+        var month = document.getElementById('month').value;
+        var year = document.getElementById('year').value;
+        var plant = document.getElementById('plant').value;
+        if ( (month == "") || (year == "") || (plant == "") ) { 
+          return;
+        } else {
+          window.open("exportTableReportForMonth_Year.php?month="+month+"&year="+year+"&plant="+plant,'_blank');
+        }
+      }
+
       function printTableReport() {
         var month = document.getElementById('month').value;
         var year = document.getElementById('year').value;
@@ -165,6 +176,17 @@ if(!isset($_SESSION["admin"]))
             xmlhttp.send();
           }        
       }
+
+      function exportTableReportBrief() {
+        var month = document.getElementById('month4').value;
+        var year = document.getElementById('year4').value;
+        var plant = document.getElementById('plant2').value;
+        if ( (month == "") || (year == "") || (plant == "") ) { 
+          return;
+        } else {
+          window.open("exportTableReportBriefForMonth_Year.php?month="+month+"&year="+year+"&plant="+plant,'_blank');
+        }
+      }      
 
       function printTableReportBrief() {
         var month = document.getElementById('month4').value;
@@ -218,6 +240,16 @@ if(!isset($_SESSION["admin"]))
           }        
       }
 
+      function exportTableReportBank() {
+        var month = document.getElementById('month2').value;
+        var year = document.getElementById('year2').value;
+        if ( (month == "") || (year == "") ) { 
+          return;
+        } else {
+          window.open("exportTableReportBankForMonth_Year.php?month="+month+"&year="+year,'_blank');
+        }
+      }      
+
       function printTableReportBank() {
         var month = document.getElementById('month2').value;
         var year = document.getElementById('year2').value;
@@ -247,6 +279,16 @@ if(!isset($_SESSION["admin"]))
             xmlhttp.send();
           }        
       }
+
+      function exportTableReportBankBrief() {
+        var month = document.getElementById('month3').value;
+        var year = document.getElementById('year3').value;
+        if ( (month == "") || (year == "") ) { 
+          return;
+        } else {
+          window.open("exportTableReportBankBriefForMonth_Year.php?month="+month+"&year="+year,'_blank');
+        }
+      }      
 
       function printTableReportBankBrief() {
         var month = document.getElementById('month3').value;
@@ -536,7 +578,7 @@ if(!isset($_SESSION["admin"]))
         <div class="collapsible-header teal-text"><b><i class="material-icons">assignment</i>Employees report for particular month [Brief report]</b></div>
         <div class="collapsible-body">
           <div class="row">
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="month4" id="month4" onchange="fetchTableReportBrief();">
                 <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
                 <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
@@ -553,13 +595,16 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Month</label>
             </div> 
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="year4" id="year4" onchange="fetchTableReportBrief();">
                 <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
                 <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
               </select>
               <label>Year</label>
             </div>
+            <div class="input-field col s12 m2 l2">
+              <img src="images/xls.png" alt="XLS" onclick="exportTableReportBrief();" />
+            </div>            
             <div class="input-field col s12 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReportBrief();" />
             </div>             
@@ -619,7 +664,7 @@ if(!isset($_SESSION["admin"]))
         <div class="collapsible-header teal-text"><b><i class="material-icons">assignment</i>Employees report for particular month [Detailed report]</b></div>
         <div class="collapsible-body">
           <div class="row">
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="month" id="month" onchange="fetchTableReport();">
                 <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
                 <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
@@ -636,13 +681,16 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Month</label>
             </div> 
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="year" id="year" onchange="fetchTableReport();">
                 <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
                 <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
               </select>
               <label>Year</label>
             </div> 
+            <div class="input-field col s12 m2 l2">
+              <img src="images/xls.png" alt="XLS" onclick="exportTableReport();" />
+            </div>            
             <div class="input-field col s12 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReport();" />
             </div>             
@@ -675,7 +723,7 @@ if(!isset($_SESSION["admin"]))
         <div class="collapsible-header teal-text"><b><i class="material-icons">assignment</i>Employees report with Bank Account [Brief report]</b></div>
         <div class="collapsible-body"> 
           <div class="row">
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="month3" id="month3" onchange="fetchTableReportBankBrief();">
                 <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
                 <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
@@ -692,13 +740,16 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Month</label>
             </div> 
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="year3" id="year3" onchange="fetchTableReportBankBrief();">
                 <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
                 <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
               </select>
               <label>Year</label>
-            </div>  
+            </div> 
+            <div class="input-field col s12 m2 l2">
+              <img src="images/xls.png" alt="XLS" onclick="exportTableReportBankBrief();" />
+            </div>             
             <div class="input-field col s12 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReportBankBrief();" />
             </div>                      
@@ -715,7 +766,7 @@ if(!isset($_SESSION["admin"]))
         <div class="collapsible-header teal-text"><b><i class="material-icons">assignment</i>Employees report with Bank Account [Detailed report]</b></div>
         <div class="collapsible-body"> 
           <div class="row">
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="month2" id="month2" onchange="fetchTableReportBank();">
                 <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
                 <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
@@ -732,13 +783,16 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Month</label>
             </div> 
-            <div class="input-field col s12 m5 l5">
+            <div class="input-field col s12 m4 l4">
               <select name="year2" id="year2" onchange="fetchTableReportBank();">
                 <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
                 <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
               </select>
               <label>Year</label>
-            </div>  
+            </div> 
+            <div class="input-field col s12 m2 l2">
+              <img src="images/xls.png" alt="XLS" onclick="exportTableReportBank();" />
+            </div>             
             <div class="input-field col s12 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReportBank();" />
             </div>                      
