@@ -17,7 +17,7 @@
   }     
 </style>
 
-<table class="striped centered">
+<table class="striped centered" id="pdf1table">
   <thead style="font-size: 16px;">
     <tr>
         <th>EMP ID</th>

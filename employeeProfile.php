@@ -308,7 +308,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
         <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employee In / Out report for particular month</b></div>
         <div class="collapsible-body">
           <div class="row">
-            <div class="input-field col s12 m6 l6">
+            <div class="input-field col s12 m5 l5">
               <select name="month" id="month" onchange="fetchTableReportInOut('<?php echo $employee['emp_id']; ?>');">
                 <option value="1" <?php if($month==1){echo "selected";}else{echo "";} ?> >01-January</option>
                 <option value="2" <?php if($month==2){echo "selected";}else{echo "";} ?> >02-Feburary</option>
@@ -325,13 +325,16 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
               </select>
               <label>Month</label>
             </div> 
-            <div class="input-field col s12 m6 l6">
+            <div class="input-field col s12 m5 l5">
               <select name="year" id="year" onchange="fetchTableReportInOut('<?php echo $employee['emp_id']; ?>');">
                 <option value="2018" <?php if($year==2018){echo "selected";}else{echo "";} ?> >2018</option>
                 <option value="2017" <?php if($year==2017){echo "selected";}else{echo "";} ?> >2017</option> 
               </select>
               <label>Year</label>
-            </div>             
+            </div>
+            <div class="input-field col s12 m2 l2">
+              <img src="images/pdf.png" alt="PDF" onclick="#" />
+            </div>                          
           </div> 
 <?php
   echo "<script>fetchTableReportInOut('".$employee['emp_id']."');</script>";
@@ -374,6 +377,12 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
         <div class="collapsible-header teal-text"><b><i class="material-icons">filter_drama</i>Employee's monthly report</b></div>
         <div class="collapsible-body">
           <div class="row" id="tableReport">
+            <div class="input-field col s12 m10 l10">
+              <br/>
+            </div>            
+            <div class="input-field col s12 m2 l2">
+              <img src="images/pdf.png" alt="PDF" onclick="#" />
+            </div>             
             <table class="highlight centered">
               <thead style="font-size: 16px;">
                 <tr>
