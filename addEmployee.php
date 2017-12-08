@@ -155,7 +155,7 @@ if(!isset($_SESSION["admin"]))
         <div class="row">
           <div class="input-field col s6">      
             <p>
-              <input name="gender" type="radio" id="male" value="male" />
+              <input name="gender" type="radio" id="male" value="male" checked />
               <label for="male">Male</label>
             </p>
           </div>
@@ -187,7 +187,7 @@ if(!isset($_SESSION["admin"]))
         <div class="row">
           <div class="input-field col s6">      
             <p>
-              <input name="workType" type="radio" id="monthly" value="monthly" />
+              <input name="workType" type="radio" id="monthly" checked value="monthly" />
               <label for="monthly">Monthly salary</label>
             </p>
           </div>
@@ -287,7 +287,7 @@ if(!isset($_SESSION["admin"]))
             <label for="branchCode">Branch Code</label>
           </div>
         </div>                                      
-<br/>
+<br/><br/><br/>
         <div class="row">
           <button class="waves-effect waves-light btn" id="submit" name="submit">SAVE</button> &nbsp;&nbsp;&nbsp;
           <button onclick="location.reload();" class="waves-effect waves-light btn red-text white">RESET</button><br/>

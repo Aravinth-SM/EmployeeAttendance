@@ -15,8 +15,8 @@
   }     
 </style>
 
-<table class="centered striped">
-  <thead style="font-size: 16px;">
+<table class="centered striped responsive-table">
+  <thead>
     <tr>
         <th>DATE</th>
         <th>DAY</th>

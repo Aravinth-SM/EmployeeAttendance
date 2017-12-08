@@ -232,7 +232,7 @@ if(!isset($_SESSION["admin"]))
       <br/>
       <img src="images/img_avatar.png" alt="Avatar" style="width:200px">
       <br/>
-      <ul class="collapsible popout" data-collapsible="accordion" style="width: 500px;">
+      <ul class="collapsible popout container" data-collapsible="accordion">
        <li>
          <div class="collapsible-header active teal-text">
             <i class="material-icons">assignment</i><b>Salary Structure</b>
@@ -287,8 +287,8 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
 ?>
 
          <div class="collapsible-body">
-            <table class="highlight centered">
-              <thead style="border-top: 1px solid black;border-bottom: 1px solid black;font-size: 16px;">
+            <table class="highlight centered responsive-table">
+              <thead style="border-top: 1px solid black;border-bottom: 1px solid black;">
                 <tr>
                     <th>COMPONENTS</th>
                     <th>Rs.</th>
@@ -315,7 +315,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
                   <td>MESS FARE</td>
                   <td><?php echo $messFare; ?>.00</td>
                 </tr>                
-                <tr style="border-top: 1px solid black;font-size: 15px;">
+                <tr style="border-top: 1px solid black;">
                   <td><b>TOTAL</b></td>
                   <td><b><?php echo $total; ?></b></td>
                 </tr>                                
@@ -329,7 +329,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
       &nbsp;&nbsp;&nbsp;
       <button class="waves-effect waves-light btn red-text white" onclick="deleteEmp(<?php echo $employee['emp_id']; ?>);">DELETE EMPLOYEE</button>
       <!-- Modal Structure Open -->
-      <div id="modalAttendance" class="modal" style="width: 1200px;max-height: 600px;">
+      <div id="modalAttendance" class="modal">
          <div class="modal-content">
 
 <?php
@@ -369,10 +369,10 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
               </select>
               <label>Year</label>
             </div>
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/xls.png" alt="PDF" onclick="exportTableReportInOut('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
             </div>            
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReportInOut('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
             </div>                          
           </div> 
@@ -420,14 +420,14 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
             <div class="input-field col s12 m8 l8">
               <br/>
             </div>  
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/xls.png" alt="XLS" onclick="exportMonthlySalaryPaidReport('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
             </div>                       
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printMonthlySalaryPaidReport('<?php echo $employee['emp_id']; ?>','<?php echo $employee['name']; ?>');" />
             </div>             
-            <table class="highlight centered">
-              <thead style="font-size: 16px;">
+            <table class="striped centered responsive-table">
+              <thead>
                 <tr>
                   <th>MONTH</th>
                   <th>PRESENT</th>
@@ -444,23 +444,13 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
               <tbody>
 <?php
 
-  for($i=$month;$i>0;$i--)
-  {
-    if($i<10)
-      $monthStr = '0'.$i;
-    else
-      $monthStr = $i;
-    $month = $year."-".$monthStr;
-
-    //echo "<script>alert('".$employee["emp_id"]."');</script>";
-
-    $querySal = "select * from salary where emp_id='".$employee["emp_id"]."' and month='".$month."' ";
+    $querySal = "select * from salary where emp_id='".$employee["emp_id"]."' ";
     $exeSal = mysqli_query($conn,$querySal); 
     while($employeeSal = mysqli_fetch_assoc($exeSal))
     {    
 ?>
                 <tr>
-                  <td><?php echo $month; ?></td>
+                  <td><?php echo $employeeSal["month"]; ?></td>
                   <td><?php echo $employeeSal["present"]; ?></td>
                   <td><?php echo $employeeSal["absent"]; ?></td>
                   <td><?php echo $employeeSal["holiday"]; ?></td>
@@ -473,7 +463,6 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
                 </tr> 
 <?php
     }
-  }
 ?>
               </tbody>
             </table>            
@@ -485,8 +474,10 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
 
          </div>
       </div>
-      <!-- Modal Structure Close -->     
+      <!-- Modal Structure Close -->   
+      <br/><br/><br/><br/>  
     </div>
+
     <div class="col s12 m6 l6">
       <form method="post">
       <div class="row">
@@ -827,7 +818,7 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
             <label for="branchCode">Branch Code</label>
           </div>
         </div>      
-<br/>
+<br/><br/><br/>
       <div class="row">
        <button class="waves-effect waves-light btn" id="submit" name="submit">UPDATE</button> &nbsp;&nbsp;&nbsp;
        <button type="reset" class="waves-effect waves-light btn red-text white">RESET</button><br/>

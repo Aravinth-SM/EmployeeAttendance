@@ -1,3 +1,10 @@
+Photo upload
+Add or delete plant dynamically
 code alignment & comments
 //update `attendance` set date="2017-09-06" WHERE date="2017-09-02"
 //"ID" in attendance table
+
+Truncate DB except variables table[with 1 record for current month]
+How many accounts?
+
+Mobile responsive

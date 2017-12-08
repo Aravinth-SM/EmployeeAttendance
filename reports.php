@@ -602,10 +602,10 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Year</label>
             </div>
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/xls.png" alt="XLS" onclick="exportTableReportBrief();" />
             </div>            
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReportBrief();" />
             </div>             
             <div class="input-field col s12 m12 l12">
@@ -688,10 +688,10 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Year</label>
             </div> 
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/xls.png" alt="XLS" onclick="exportTableReport();" />
             </div>            
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReport();" />
             </div>             
             <div class="input-field col s12 m12 l12">
@@ -747,10 +747,10 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Year</label>
             </div> 
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/xls.png" alt="XLS" onclick="exportTableReportBankBrief();" />
             </div>             
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReportBankBrief();" />
             </div>                      
           </div> 
@@ -790,10 +790,10 @@ if(!isset($_SESSION["admin"]))
               </select>
               <label>Year</label>
             </div> 
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/xls.png" alt="XLS" onclick="exportTableReportBank();" />
             </div>             
-            <div class="input-field col s12 m2 l2">
+            <div class="input-field col s6 m2 l2">
               <img src="images/pdf.png" alt="PDF" onclick="printTableReportBank();" />
             </div>                      
           </div> 

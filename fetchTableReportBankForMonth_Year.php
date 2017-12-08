@@ -16,8 +16,8 @@
   }     
 </style>
 
-<table class="striped centered">
-  <thead style="font-size: 16px;">
+<table class="striped centered responsive-table">
+  <thead>
     <tr>
         <th>EMP ID</th>
         <th>EMP NAME</th>

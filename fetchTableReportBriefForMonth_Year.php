@@ -17,8 +17,8 @@
   }     
 </style>
 
-<table class="striped centered" id="pdf1table">
-  <thead style="font-size: 16px;">
+<table class="striped centered responsive-table" id="pdf1table">
+  <thead>
     <tr>
         <th>EMP ID</th>
         <th>EMP NAME</th>

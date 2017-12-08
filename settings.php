@@ -154,6 +154,7 @@ if(!isset($_SESSION["admin"]))
       </div>
     </div>
     <div class="col s12 m6 l6">
+      <br/><br/>
       <form method="post" novalidate>
         <div class="row">
           <div class="input-field col s12">
