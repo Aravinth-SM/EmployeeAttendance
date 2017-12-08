@@ -243,6 +243,7 @@ if(!isset($_SESSION["admin"]))
 $salary = $employee['salary'];
 $pf     = $employee['PF'];
 $esi    = $employee['ESI'];
+$fixedSalary = $employee['fixed_salary'];
 $isBusFare = $employee['busFare'];
 $isMessFare = $employee['messFare'];
 $bankAccountNumber = $employee['bankAccountNumber'];
@@ -730,20 +731,40 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
           </div>
         </div>           
         <div class="row">
-          <div class="input-field col s12">
-            <input name="isBank" type="checkbox" class="filled-in" id="bank" onchange="showBankDiv();" 
+          <div class="input-field col s6">         
+            <p>
+              <input name="fixedSalary" type="checkbox" onchange="toggleCheck(this.id);" class="filled-in" id="fixedSalary" 
                <?php 
-                  if($bankAccountNumber)
+                  if($fixedSalary)
                      echo "checked";
                ?>
                value="<?php 
-                    if($bankAccountNumber)
+                    if($fixedSalary)
                       echo "on";
                     else
                       echo "off";
-                 ?>"
-            />
-            <label for="bank">Bank Account</label>
+                 ?>"               
+              />
+              <label for="fixedSalary">Fixed Salary</label>
+              &nbsp;&nbsp;&nbsp;<i class="material-icons amber-text tooltipped" data-position="top" data-delay="50" data-tooltip="Paid full salary irrespective of attendance" style="cursor: pointer;">error_outline</i>
+            </p>
+          </div>          
+          <div class="input-field col s16">
+            <p>
+              <input name="isBank" type="checkbox" class="filled-in" id="bank" onchange="showBankDiv();" 
+                 <?php 
+                    if($bankAccountNumber)
+                       echo "checked";
+                 ?>
+                 value="<?php 
+                      if($bankAccountNumber)
+                        echo "on";
+                      else
+                        echo "off";
+                   ?>"
+              />
+              <label for="bank">Bank Account</label>
+            </p>
           </div> 
         </div>
         <div class="row bank" style="
@@ -836,6 +857,7 @@ if(isset($_POST["submit"]))
   $messFare = $_POST["messFare"]; 
   $pf = $_POST["pf"];
   $esi = $_POST["esi"];
+  $fixedSalary = $_POST["fixedSalary"];
   $isBank = $_POST["isBank"]; 
   $accNo = 0;
   $branchName = "";
@@ -869,6 +891,13 @@ if(isset($_POST["submit"]))
     $esi = 0;
   }  
 
+  if($fixedSalary == "on") {
+    $fixedSalary = 1;
+  } 
+  else {
+    $fixedSalary = 0;
+  }   
+
   if($isBank == "on") {
     $accNo      = $_POST["accNo"];
     $branchName = $_POST["branchName"];
@@ -887,7 +916,7 @@ if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($d
   else
   {  
 
-  $execute = mysqli_query($conn,"update employee set name='".$name."',type='".$workType."',salary='".$salary."',phone='".$phone."',DOB='".$dob."',DOJ='".$doj."',address='".$address."',PF='".$pf."',ESI='".$esi."',gender='".$gender."',busFare='".$busFare."',messFare='".$messFare."',plant='".$plant."',bankAccountNumber='".$accNo."',branchCode='".$branchCode."',branchName='".$branchName."' where emp_id='".$empId."' ");
+  $execute = mysqli_query($conn,"update employee set name='".$name."',type='".$workType."',salary='".$salary."',phone='".$phone."',DOB='".$dob."',DOJ='".$doj."',address='".$address."',fixed_salary='".$fixedSalary."',PF='".$pf."',ESI='".$esi."',gender='".$gender."',busFare='".$busFare."',messFare='".$messFare."',plant='".$plant."',bankAccountNumber='".$accNo."',branchCode='".$branchCode."',branchName='".$branchName."' where emp_id='".$empId."' ");
 
 
    echo "<script>window.location.href='employeeRecords.php';</script>";

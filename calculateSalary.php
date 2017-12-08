@@ -46,6 +46,7 @@
 		  	$mess_fare = $employee['messFare'];
 		  	$pf = $employee['PF'];
 		  	$esi = $employee['ESI'];
+		  	$fixedSalary = $employee['fixed_salary'];
 		  	$type = $employee['type']; 
 		  	$busAmt = 0;
 		  	$messAmt = 0;
@@ -89,7 +90,14 @@
 		  		$perHour = round( (( (int)$perDay ) / 9.5) , 2 );
 		  	}
 
-		  	$salary = round(( ((26-$absent)*$perDay) + ($OT*$perHour) - $bus_fare - $mess_fare - $PF - $ESI ),2);
+		  	if($fixedSalary == 1)
+		  	{
+		  		$salary = round( $employee['salary'] , 2 );
+		  	}
+		  	else
+		  	{
+		  		$salary = round(( ((26-$absent)*$perDay) + ($OT*$perHour) - $bus_fare - $mess_fare - $PF - $ESI ),2);
+		  	}
 
 		  // echo "empId : ".$empId." ";
 		  // echo "present : ".$present." ";

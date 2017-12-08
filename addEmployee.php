@@ -255,9 +255,18 @@ if(!isset($_SESSION["admin"]))
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s16">
-            <input name="isBank" type="checkbox" class="filled-in" value="off" id="bank" onchange="showBankDiv();" />
-            <label for="bank">Bank Account</label>
+          <div class="input-field col s6">         
+            <p>
+              <input name="fixedSalary" type="checkbox" value="off" onchange="toggleCheck(this.id);" class="filled-in" id="fixedSalary" />
+              <label for="fixedSalary">Fixed Salary</label>
+              &nbsp;&nbsp;&nbsp;<i class="material-icons amber-text tooltipped" data-position="top" data-delay="50" data-tooltip="Paid full salary irrespective of attendance" style="cursor: pointer;">error_outline</i>
+            </p>
+          </div>          
+          <div class="input-field col s6">
+            <p>
+              <input name="isBank" type="checkbox" class="filled-in" value="off" id="bank" onchange="showBankDiv();" />
+              <label for="bank">Bank Account</label>
+            </p>
           </div> 
         </div>
         <div class="row bank" style="display: none;">
@@ -311,6 +320,7 @@ if(isset($_POST["submit"]))
   $messFare = $_POST["messFare"]; 
   $pf = $_POST["pf"];
   $esi = $_POST["esi"];
+  $fixedSalary = $_POST["fixedSalary"];
   $isBank = $_POST["isBank"]; 
   $accNo = 0;
   $branchName = "";
@@ -342,7 +352,14 @@ if(isset($_POST["submit"]))
   } 
   else {
     $esi = 0;
-  }       
+  }
+
+  if($fixedSalary == "on") {
+    $fixedSalary = 1;
+  } 
+  else {
+    $fixedSalary = 0;
+  }         
 
   if($isBank == "on") {
     $accNo      = $_POST["accNo"];
@@ -371,12 +388,12 @@ if(isset($_POST["submit"]))
    }
    else { 
 
-     $execute = mysqli_query($conn,"insert into employee (emp_id,name,type,salary,phone,DOB,DOJ,address,PF,ESI,gender,busFare,messFare,plant,bankAccountNumber,branchCode,branchName) values('".$empId."','".$name."','".$workType."','".$salary."','".$phone."','".$dob."','".$doj."','".$address."','".$pf."','".$esi."','".$gender."','".$busFare."','".$messFare."','".$plant."','".$accNo."','".$branchCode."','".$branchName."')");
+     $execute = mysqli_query($conn,"insert into employee (emp_id,name,type,salary,phone,DOB,DOJ,address,fixed_salary,PF,ESI,gender,busFare,messFare,plant,bankAccountNumber,branchCode,branchName) values('".$empId."','".$name."','".$workType."','".$salary."','".$phone."','".$dob."','".$doj."','".$address."','".$fixedSalary."','".$pf."','".$esi."','".$gender."','".$busFare."','".$messFare."','".$plant."','".$accNo."','".$branchCode."','".$branchName."')");
 
      if($execute == 1)
      {
-      //echo "<script>alert('success');</script>";
-        header("location:employeeRecords.php");
+      echo '<script>Materialize.toast("Employee added successfully",6000,"rounded");</script>';
+      //header("location:employeeRecords.php");
      }
 
      else
