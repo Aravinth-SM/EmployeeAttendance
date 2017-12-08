@@ -119,8 +119,8 @@ if(!isset($_SESSION["admin"]))
       <br/><br/>
       <div class="row" id="variablesReport">
 
-        <table class="striped centered" style="border: 1px solid black;">
-          <thead style="border-bottom: 1px solid black;font-size: 16px;">
+        <table class="striped centered responsive-table" style="border: 1px solid black;">
+          <thead style="border-bottom: 1px solid black;">
             <tr>
                 <th>MONTH</th>
                 <th>BUS FARE</th>
