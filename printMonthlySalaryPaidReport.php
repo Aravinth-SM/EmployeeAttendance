@@ -1,4 +1,12 @@
-<html>
+<?php
+session_start();error_reporting(0);
+
+if(!isset($_SESSION["admin"]))
+  header("location:index.php");
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>print</title>
   <!-- Materialize Open --> 
@@ -6,6 +14,7 @@
     <script type="text/javascript" src="materialize/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
   <!-- Materialize Close -->   
+  <link rel="icon" href="images/favicon.png" type="image/png" sizes="20x20">
   <!-- these js files are used for making PDF -->
     <script src="js/xepOnline.jqPlugin.js"></script>
   <!-- these js files are used for making PDF -->
