@@ -98,6 +98,8 @@ if(!isset($_SESSION["admin"]))
     {
       $username = $variable['username'];
       $oldPassword = $variable['password'];
+      $roleName = $variable['role_name'];
+      $roleType = $variable['role_type'];
     }
 
 ?>   
@@ -107,6 +109,14 @@ if(!isset($_SESSION["admin"]))
     </div>
     <div class="col s12 m6 l6">
       <form method="post" novalidate>
+        <div class="row">
+          <div class="input-field col s6">
+            <label for="userName"><b class="teal-text">Role Name : </b><?php echo $roleName ?></label>
+          </div>
+          <div class="input-field col s6">
+            <label for="userName"><b class="teal-text">Role Type : </b><?php echo $roleType ?></label>
+          </div>          
+        </div> <br/><br/>       
         <div class="row">
           <div class="input-field col s12">
             <input id="userName" name="userName" type="text" class="validate" required="required" autofocus="autofocus" value="<?php echo $username; ?>">
