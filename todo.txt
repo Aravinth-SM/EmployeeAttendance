@@ -1,3 +1,5 @@
+Restrict changing attendance for before month
+Calculate salary button
 Photo upload
 Add or delete plant dynamically
 code alignment & comments
@@ -5,6 +7,4 @@ code alignment & comments
 //"ID" in attendance table
 
 Truncate DB except variables table[with 1 record for current month]
-How many accounts?
-
-Mobile responsive
+How to calculate salary for daily wages employee?
