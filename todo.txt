@@ -1,3 +1,6 @@
+Diff account for PF employees
+OT weekly report
+Employee ID automate & remove from form
 Restrict changing attendance for before month
 Calculate salary button
 Photo upload
@@ -8,3 +11,5 @@ code alignment & comments
 
 Truncate DB except variables table[with 1 record for current month]
 How to calculate salary for daily wages employee?
+
+toy plant & jelly packing -> case
