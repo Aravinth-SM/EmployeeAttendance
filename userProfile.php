@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 
-if(!isset($_SESSION["admin"]))
+if(!isset($_SESSION["flubbers_admin"]))
   header("location:index.php");
 ?>
 
@@ -44,55 +44,34 @@ if(!isset($_SESSION["admin"]))
   <script type="text/javascript">
     $(document).ready(function(){  
       $(".button-collapse").sideNav();
-      $(".dropdown-button").dropdown({ hover: true });
     });
   </script>
 
 </head>
 <body>
-  <!-- Dropdown Structure Open -->
-  <ul id="dropdown1" class="dropdown-content">
-    <li><a href="profile.php">Profile</a></li>
-    <li class="divider"></li>
-    <li><a href="settings.php">Variables</a></li>
-  </ul>  
-  <!-- Dropdown Structure Close -->
-  <!-- Dropdown Structure Open -->
-  <ul id="dropdown2" class="dropdown-content">
-    <li><a href="profile.php">Profile</a></li>
-    <li class="divider"></li>
-    <li><a href="settings.php">Variables</a></li>
-  </ul>  
-  <!-- Dropdown Structure Close -->  
   <nav>
     <div class="nav-wrapper blue-grey darken-3">
       &nbsp;&nbsp;&nbsp;
       <a href="index.php" class="brand-logo helloFont1">Flubbers</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="viewAttendance.php">Home</a></li>
-        <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a href="reports.php">Reports</a></li>
+        <li class="active"><a href="userProfile.php">Profile</a></li>
         <li><a href="logout.php">Log out</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="viewAttendance.php">Home</a></li>
-        <li><a href="addEmployee.php">Add Employee</a></li>
         <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a href="reports.php">Reports</a></li>
+        <li class="active"><a href="userProfile.php">Profile</a></li>
         <li><a href="logout.php">Log out</a></li>        
-      </ul>
+      </ul>      
     </div>
-  </nav> 
+  </nav>  
 <?php
   include("DB/db.php");
 
     $username = "";
     $oldPassword = "";
-    $queryVar = "select * from admin where id='".$_SESSION["admin_id"]."'";
+    $queryVar = "select * from admin where id='".$_SESSION["flubbers_admin_id"]."'";
     $exeVar = mysqli_query($conn,$queryVar);
     while($variable = mysqli_fetch_assoc($exeVar))
     {
@@ -109,14 +88,7 @@ if(!isset($_SESSION["admin"]))
     </div>
     <div class="col s12 m6 l6">
       <form method="post" novalidate>
-        <div class="row">
-          <div class="input-field col s6">
-            <label for="userName"><b class="teal-text">Role Name : </b><?php echo $roleName ?></label>
-          </div>
-          <div class="input-field col s6">
-            <label for="userName"><b class="teal-text">Role Type : </b><?php echo $roleType ?></label>
-          </div>          
-        </div> <br/><br/>       
+        <br/>       
         <div class="row">
           <div class="input-field col s12">
             <input id="userName" name="userName" type="text" class="validate" required="required" value="<?php echo $username; ?>">
@@ -183,7 +155,7 @@ else {
     echo '<script>Materialize.toast("New password and Re-enter new password is not same",6000,"rounded");</script>';
   }  
 else {
-$execute = mysqli_query($conn,"update admin set username='".$userName."',password='".$newPswd."' where id='".$_SESSION["admin_id"]."' ");
+$execute = mysqli_query($conn,"update admin set username='".$userName."',password='".$newPswd."' where id='".$_SESSION["flubbers_admin_id"]."' ");
 
 
    echo "<script>window.location.href='logout.php';</script>";  

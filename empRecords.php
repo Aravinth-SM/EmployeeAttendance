@@ -1,7 +1,7 @@
 <?php
 session_start();error_reporting(0);
 
-if(!isset($_SESSION["admin"]))
+if(!isset($_SESSION["flubbers_admin"]))
   header("location:index.php");
 ?>
 
@@ -28,15 +28,14 @@ if(!isset($_SESSION["admin"]))
       @font-face { font-family: Gumption lite; src: url('fonts/Gumption-lite.ttf'); } 
         .helloFont1{
         font-family:"Gumption lite";
-      }
+      } 
   </style>
 
   <script type="text/javascript">
 
     $(document).ready(function(){   
       $('select').material_select();
-      $(".button-collapse").sideNav(); 
-      $(".dropdown-button").dropdown({ hover: true });
+      $(".button-collapse").sideNav();
     });
 
 
@@ -87,7 +86,7 @@ if(!isset($_SESSION["admin"]))
                   //document.getElementById('employeeRows').innerHTML=val;                       
               }
           }
-          xmlhttp.open("GET", "loadDatasForPlant.php?plant="+val+"&flubbers=0", true);
+          xmlhttp.open("GET", "loadDatasForPlant.php?plant="+val+"&flubbers=1", true);
           xmlhttp.send();
         }        
     }    
@@ -106,47 +105,27 @@ if(!isset($_SESSION["admin"]))
                   hideLoader();                       
               }
           }
-          xmlhttp.open("GET", "fetchEmployeesForPlant.php?plant="+val+"&flubbers=0", true);
+          xmlhttp.open("GET", "fetchEmployeesForPlant.php?plant="+val+"&flubbers=1", true);
           xmlhttp.send();
         }        
     } 
 
   </script>
 </head>
-<body onload="fetchEmployees('all');">
-  <!-- Dropdown Structure Open -->
-  <ul id="dropdown1" class="dropdown-content">
-    <li><a href="profile.php">Profile</a></li>
-    <li class="divider"></li>
-    <li><a href="settings.php">Variables</a></li>
-  </ul>  
-  <!-- Dropdown Structure Close -->
-  <!-- Dropdown Structure Open -->
-  <ul id="dropdown2" class="dropdown-content">
-    <li><a href="profile.php">Profile</a></li>
-    <li class="divider"></li>
-    <li><a href="settings.php">Variables</a></li>
-  </ul>  
-  <!-- Dropdown Structure Close -->  
+<body onload="fetchEmployees('all');">  
   <nav>
     <div class="nav-wrapper blue-grey darken-3">
       &nbsp;&nbsp;&nbsp;
       <a href="index.php" class="brand-logo helloFont1">Flubbers</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="viewAttendance.php">Home</a></li>
-        <li><a href="addEmployee.php">Add Employee</a></li>
         <li class="active"><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a href="reports.php">Reports</a></li>
+        <li><a href="userProfile.php">Profile</a></li>
         <li><a href="logout.php">Log out</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="viewAttendance.php">Home</a></li>
-        <li><a href="addEmployee.php">Add Employee</a></li>
         <li class="active"><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a href="reports.php">Reports</a></li>
+        <li><a href="userProfile.php">Profile</a></li>
         <li><a href="logout.php">Log out</a></li>        
       </ul>      
     </div>

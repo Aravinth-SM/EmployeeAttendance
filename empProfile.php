@@ -1,7 +1,7 @@
 <?php
 session_start();error_reporting(0);
 
-if(!isset($_SESSION["admin"]))
+if(!isset($_SESSION["flubbers_admin"]))
   header("location:index.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -183,43 +183,23 @@ if(!isset($_SESSION["admin"]))
   </script>   
 </head>
 <body>
-  <!-- Dropdown Structure Open -->
-  <ul id="dropdown1" class="dropdown-content">
-    <li><a href="profile.php">Profile</a></li>
-    <li class="divider"></li>
-    <li><a href="settings.php">Variables</a></li>
-  </ul>  
-  <!-- Dropdown Structure Close -->
-  <!-- Dropdown Structure Open -->
-  <ul id="dropdown2" class="dropdown-content">
-    <li><a href="profile.php">Profile</a></li>
-    <li class="divider"></li>
-    <li><a href="settings.php">Variables</a></li>
-  </ul>  
-  <!-- Dropdown Structure Close -->  
   <nav>
     <div class="nav-wrapper blue-grey darken-3">
       &nbsp;&nbsp;&nbsp;
       <a href="index.php" class="brand-logo helloFont1">Flubbers</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="viewAttendance.php">Home</a></li>
-        <li><a href="addEmployee.php">Add Employee</a></li>
-        <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a href="reports.php">Reports</a></li>
+        <li class="active"><a href="employeeRecords.php">Employee Records</a></li>
+        <li><a href="userProfile.php">Profile</a></li>
         <li><a href="logout.php">Log out</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="viewAttendance.php">Home</a></li>
-        <li><a href="addEmployee.php">Add Employee</a></li>
-        <li><a href="employeeRecords.php">Employee Records</a></li>
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a href="reports.php">Reports</a></li>
+        <li class="active"><a href="employeeRecords.php">Employee Records</a></li>
+        <li><a href="userProfile.php">Profile</a></li>
         <li><a href="logout.php">Log out</a></li>        
-      </ul>
+      </ul>      
     </div>
-  </nav>  
+  </nav>
 <?php
    include("DB/db.php");
    $id = intval($_GET['id']);
@@ -573,16 +553,10 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
       </div> 
       <div class="row">
        <div class="input-field col s12">
-         <input id="doj" name="doj" type="text" class="datepicker" value="<?php echo $employee['DOJ']; ?>">
-         <label for="doj">DOJ</label>
+         <input id="s_doj" name="s_doj" type="text" class="datepicker" value="<?php echo $employee['secondary_DOJ']; ?>">
+         <label for="s_doj">DOJ</label>
        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="s_doj" name="s_doj" type="text" class="datepicker" value="<?php echo $employee['secondary_DOJ']; ?>">
-          <label for="s_doj">Secondary DOJ</label>
-        </div>
-      </div>       
+      </div>      
       <div class="input-field col s12">
         <select name="plant" id="plant">
           <option value="" disabled>Choose your option</option>
@@ -692,23 +666,6 @@ $total = $salary - $pf - $esi - $busFare - $messFare;
           </div>
         </div>     
         <div class="row">
-          <div class="input-field col s6">      
-            <p>
-              <input name="pf" type="checkbox" onchange="toggleCheck(this.id);" class="filled-in" id="pf" 
-               <?php 
-                  if($pf)
-                     echo "checked";
-               ?>
-               value="<?php 
-                    if($pf)
-                      echo "on";
-                    else
-                      echo "off";
-                 ?>"               
-              />
-              <label for="pf">PF</label>
-            </p>
-          </div>
           <div class="input-field col s6">         
             <p>
               <input name="esi" type="checkbox" onchange="toggleCheck(this.id);" class="filled-in" id="esi" 
@@ -845,7 +802,7 @@ if(isset($_POST["submit"]))
   $salary = $_POST["salary"];   
   $phone = $_POST["phone"];
   $dob = $_POST["dob"];
-  $doj = $_POST["doj"];
+  //$doj = $_POST["doj"];
   $s_doj = $_POST["s_doj"];
   $address = $_POST["address"];  
 
@@ -906,7 +863,7 @@ if(isset($_POST["submit"]))
 
   //echo $gender."<br/>".$plant."<br/>".$busFare."<br/>".$messFare."<br/>".$pf."<br/>".$esi."<br/>".$accNo."<br/>".$branchName."<br/>".$branchCode."<br/>";
 
-if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($dob=="")||($doj=="")||($s_doj=="")||($address=="")||($gender=="")||($plant=="") )
+if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($dob=="")||($s_doj=="")||($address=="")||($gender=="")||($plant=="") )
   {
       echo '<script>Materialize.toast("Enter all details",6000,"rounded");</script>';
       //header("location:addEmployee.php");    
@@ -914,7 +871,7 @@ if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($d
   else
   {  
 
-  $execute = mysqli_query($conn,"update employee set name='".$name."',type='".$workType."',salary='".$salary."',phone='".$phone."',DOB='".$dob."',DOJ='".$doj."',secondary_DOJ='".$s_doj."',address='".$address."',fixed_salary='".$fixedSalary."',PF='".$pf."',ESI='".$esi."',gender='".$gender."',busFare='".$busFare."',messFare='".$messFare."',plant='".$plant."',bankAccountNumber='".$accNo."',branchCode='".$branchCode."',branchName='".$branchName."' where emp_id='".$empId."' ");
+  $execute = mysqli_query($conn,"update employee set name='".$name."',type='".$workType."',salary='".$salary."',phone='".$phone."',DOB='".$dob."',secondary_DOJ='".$s_doj."',address='".$address."',fixed_salary='".$fixedSalary."',PF='".$pf."',ESI='".$esi."',gender='".$gender."',busFare='".$busFare."',messFare='".$messFare."',plant='".$plant."',bankAccountNumber='".$accNo."',branchCode='".$branchCode."',branchName='".$branchName."' where emp_id='".$empId."' ");
 
 
    echo "<script>window.location.href='employeeRecords.php';</script>";

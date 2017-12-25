@@ -136,12 +136,6 @@ if(!isset($_SESSION["admin"]))
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
-            <input id="empId" name="empId" type="text" class="validate" required="required">
-            <label for="empId">Employee ID</label>
-          </div>
-        </div>
-        <div class="row">
           <div class="file-field input-field">
             <div class="btn">
               <span>Photo</span>
@@ -204,6 +198,12 @@ if(!isset($_SESSION["admin"]))
             <label for="doj">DOJ</label>
           </div>
         </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="s_doj" name="s_doj" type="text" class="datepicker">
+            <label for="s_doj">Secondary DOJ</label>
+          </div>
+        </div>        
         <div class="input-field col s12">
           <select name="plant" id="plant">
             <option value="" disabled selected>Choose your option</option>
@@ -305,13 +305,20 @@ if(!isset($_SESSION["admin"]))
 if(isset($_POST["submit"]))
 {
 
-  $empId = $_POST["empId"];
+  include("DB/db.php");
+
+   $queryEmp = "select * from employee";
+   $exeEmp = mysqli_query($conn,$queryEmp);
+   
+   $empId = mysqli_num_rows($exeEmp) + 1;
+
   $name = $_POST["name"];
   $workType = $_POST["workType"];
   $salary = $_POST["salary"];   
   $phone = $_POST["phone"];
   $dob = $_POST["dob"];
   $doj = $_POST["doj"];
+  $s_doj = $_POST["s_doj"];
   $address = $_POST["address"];  
 
   $gender = $_POST["gender"];
@@ -369,15 +376,14 @@ if(isset($_POST["submit"]))
 
   //echo $gender."<br/>".$plant."<br/>".$busFare."<br/>".$messFare."<br/>".$pf."<br/>".$esi."<br/>".$accNo."<br/>".$branchName."<br/>".$branchCode;
 
-  //echo $name."<br/>".$empId."<br/>".$phone."<br/>".$address."<br/>".$dob."<br/>".$doj."<br/>".$workType."<br/>".$salary;
-  if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($dob=="")||($doj=="")||($address=="")||($gender=="")||($plant=="") )
+  //echo $name."<br/>".$empId."<br/>".$phone."<br/>".$address."<br/>".$dob."<br/>".$doj."<br/>".$s_doj."<br/>".$workType."<br/>".$salary;
+  if( ($empId=="")||($name=="")||($workType=="")||($salary=="")||($phone=="")||($dob=="")||($doj=="")||($s_doj=="")||($address=="")||($gender=="")||($plant=="") )
   {
       echo '<script>Materialize.toast("Enter all details",6000,"rounded");</script>';
       //header("location:addEmployee.php");    
   }
   else
   {
-  include("DB/db.php");
 
    $queryCheck = "select * from employee where emp_id='".$empId."'";
    $exeCheck = mysqli_query($conn,$queryCheck);
@@ -388,7 +394,7 @@ if(isset($_POST["submit"]))
    }
    else { 
 
-     $execute = mysqli_query($conn,"insert into employee (emp_id,name,type,salary,phone,DOB,DOJ,address,fixed_salary,PF,ESI,gender,busFare,messFare,plant,bankAccountNumber,branchCode,branchName) values('".$empId."','".$name."','".$workType."','".$salary."','".$phone."','".$dob."','".$doj."','".$address."','".$fixedSalary."','".$pf."','".$esi."','".$gender."','".$busFare."','".$messFare."','".$plant."','".$accNo."','".$branchCode."','".$branchName."')");
+     $execute = mysqli_query($conn,"insert into employee (emp_id,name,type,salary,phone,DOB,DOJ,secondary_DOJ,address,fixed_salary,PF,ESI,gender,busFare,messFare,plant,bankAccountNumber,branchCode,branchName) values('".$empId."','".$name."','".$workType."','".$salary."','".$phone."','".$dob."','".$doj."','".$s_doj."','".$address."','".$fixedSalary."','".$pf."','".$esi."','".$gender."','".$busFare."','".$messFare."','".$plant."','".$accNo."','".$branchCode."','".$branchName."')");
 
      if($execute == 1)
      {
@@ -402,9 +408,8 @@ if(isset($_POST["submit"]))
       //header("location:addEmployee.php");
      }
    }
-
+  }
   mysqli_close($conn);
-}
 }
 
 ?>

@@ -1,6 +1,4 @@
-Diff account for PF employees
 OT weekly report
-Employee ID automate & remove from form
 Restrict changing attendance for before month
 Calculate salary button
 Photo upload
@@ -13,3 +11,30 @@ Truncate DB except variables table[with 1 record for current month]
 How to calculate salary for daily wages employee?
 
 toy plant & jelly packing -> case
+
+
+101 - 1
+102 - 2
+130 - 3
+131 - 4
+9876 - 5
+6789 - 6
+861 - 7
+505 - 8
+679 - 9
+68468 - 10
+888845 - 11
+95666 - 12
+
+UPDATE `attendance` set emp_id=1 WHERE emp_id=101
+UPDATE `attendance` set emp_id=2 WHERE emp_id=102
+UPDATE `attendance` set emp_id=3 WHERE emp_id=130
+UPDATE `attendance` set emp_id=4 WHERE emp_id=131
+UPDATE `attendance` set emp_id=5 WHERE emp_id=9876
+UPDATE `attendance` set emp_id=6 WHERE emp_id=6789
+UPDATE `attendance` set emp_id=7 WHERE emp_id=861
+UPDATE `attendance` set emp_id=8 WHERE emp_id=505
+UPDATE `attendance` set emp_id=9 WHERE emp_id=679
+UPDATE `attendance` set emp_id=10 WHERE emp_id=68468
+UPDATE `attendance` set emp_id=11 WHERE emp_id=888845
+UPDATE `attendance` set emp_id=12 WHERE emp_id=95666

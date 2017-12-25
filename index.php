@@ -13,6 +13,8 @@
    error_reporting();
    if(isset($_SESSION["admin"]) && $_SESSION["admin"] == 1)
       header("location:viewAttendance.php");  
+    else if(isset($_SESSION["flubbers_admin"]) && $_SESSION["flubbers_admin"] == 1)
+      header("location:empRecords.php");
 ?>
 
 <style>
@@ -117,16 +119,22 @@ if(isset($_POST["submit"]))
    
    if(mysqli_num_rows($exe) > 0)
    {
-      $_SESSION["admin"] = 1;
-
     while($variable = mysqli_fetch_assoc($exe))
     {
       $adminId = $variable['id'];
+      $roleType = $variable['role_type'];
     }
-
-      $_SESSION["admin_id"] = $adminId;
-      echo "<script>calculateSalary();</script>";
-      //header("location:viewAttendance.php");    
+    if( $roleType == 4) {
+      $_SESSION["flubbers_admin"] = 1;
+      $_SESSION["flubbers_admin_id"] = $adminId;
+      header("location:empRecords.php");
+    }
+    else {
+        $_SESSION["admin"] = 1;
+        $_SESSION["admin_id"] = $adminId;
+        echo "<script>calculateSalary();</script>";
+        //header("location:viewAttendance.php");
+    }    
    }
    else
     {
